@@ -205,7 +205,8 @@ tabs-component {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
-      flex-direction: column; }
+      flex-direction: column;
+  max-height: calc(100vh - 50px); }
   tabs-component .tabs {
     position: relative;
     overflow: visible;
@@ -216,8 +217,7 @@ tabs-component {
       min-width: 100vw; }
   tabs-component .tab-nav {
     background: white;
-    color: #000;
-    border-top: #ebebeb 1px solid; }
+    color: #000; }
     tabs-component .tab-nav .tab-icon {
       height: 50px;
       outline: none; }

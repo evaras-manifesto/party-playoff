@@ -2,6 +2,7 @@ tabs-component {
   flex: 1 0 100%;
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 50px);
 
   .tabs {
     position: relative;
@@ -21,7 +22,7 @@ tabs-component {
     background: white;
     color: $primary;
     //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-top: darken($light, 5%) 1px solid;
+    //border-top: darken($light, 5%) 1px solid;
 
     .tab-icon {
       height: 50px;
