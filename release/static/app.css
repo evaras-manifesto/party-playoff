@@ -32,8 +32,7 @@ body {
   -ms-flex: 1 0 auto;
       flex: 1 0 auto;
   -ms-flex-direction: column;
-      flex-direction: column;
-  -webkit-overflow-scrolling: touch; }
+      flex-direction: column; }
   [screen].active {
     opacity: 1; }
 
@@ -219,7 +218,10 @@ tabs-component {
     transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
     tabs-component .tabs .tab {
       width: 100vw;
-      min-width: 100vw; }
+      min-width: 100vw;
+      height: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch; }
   tabs-component .tab-nav {
     background: white;
     color: #000; }

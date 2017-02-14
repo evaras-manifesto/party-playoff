@@ -87,6 +87,21 @@ app.service('API', function ($state, $stateParams, $timeout, $http) {
     };
 });
 
+app.service('Settings', function () {
+    function Settings($state, $stateParams, $timeout, $http) {
+        _classCallCheck(this, Settings);
+
+        this;
+    }
+
+    _createClass(Settings, [{
+        key: '$onInit',
+        value: function $onInit() {}
+    }]);
+
+    return Settings;
+}());
+
 app.component('headerComponent', {
     templateUrl: 'header.html',
     controllerAs: '$ctrl',
