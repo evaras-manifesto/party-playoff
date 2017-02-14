@@ -1,14 +1,12 @@
 html, body {
   font-family: 'Lato', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
   background: #fdfdfd;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   font-weight: 500;
-  color: #000;
-  min-height: 100vh;
-  max-height: 100vh; }
+  color: #000; }
 
 input, textarea {
   -webkit-font-smoothing: antialiased;
@@ -26,13 +24,16 @@ body {
   padding-top: 50px;
   transition: .3s;
   min-height: calc(100vh);
+  height: calc(100vh);
+  max-height: calc(100vh);
   position: relative;
   display: -ms-flexbox;
   display: flex;
   -ms-flex: 1 0 auto;
       flex: 1 0 auto;
   -ms-flex-direction: column;
-      flex-direction: column; }
+      flex-direction: column;
+  -webkit-overflow-scrolling: touch; }
   [screen].active {
     opacity: 1; }
 

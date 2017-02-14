@@ -11,16 +11,16 @@ $light: #f8f8f8;
 
 html, body {
   font-family: 'Lato', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
   background: lighten($light, 2%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   font-weight: 500;
   color: $body;
-  min-height: 100vh;
-  max-height: 100vh;
+
 }
+
 
 input, textarea {
   -webkit-font-smoothing: antialiased;
@@ -60,10 +60,14 @@ body {
   transition: .3s;
   //min-height: calc(100vh - 120px);
   min-height: calc(100vh);
+  height: calc(100vh);
+  max-height: calc(100vh);
   position: relative;
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
+
+  -webkit-overflow-scrolling: touch;
 
   &.active {
     opacity: 1;
