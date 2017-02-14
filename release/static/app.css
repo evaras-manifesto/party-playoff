@@ -212,6 +212,9 @@ tabs-component {
     position: relative;
     overflow: visible;
     will-change: transform;
+    height: calc(100vh - 100px);
+    -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
     transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
     tabs-component .tabs .tab {
       width: 100vw;

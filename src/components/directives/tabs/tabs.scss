@@ -9,6 +9,9 @@ tabs-component {
     overflow: visible;
     will-change: transform;
 
+    height: calc(100vh - 100px);
+    flex: 0 0 auto;
+
     transition: transform .3s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 
     .tab {
