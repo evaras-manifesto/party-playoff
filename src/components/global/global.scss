@@ -50,22 +50,40 @@ body {
   }
 }
 
+.body {
+  overflow: hidden;
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+[ui-view] {
+  display: flex;
+  flex: 1 0 auto;
+
+
+  overflow: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  width: 100vw;
+}
+
 .fa {
   line-height: inherit;
 }
 
 [screen] {
   opacity: 0;
-  padding-top: 50px;
   transition: .3s;
-  //min-height: calc(100vh - 120px);
-  min-height: calc(100vh);
-  height: calc(100vh);
-  max-height: calc(100vh);
   position: relative;
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
+  width: 100vw;
 
   &.active {
     opacity: 1;

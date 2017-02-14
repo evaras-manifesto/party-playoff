@@ -167,21 +167,6 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.controller('HomeScreen', function () {
-    function HomeScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
-        _classCallCheck(this, HomeScreen);
-    }
-
-    _createClass(HomeScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log(this);
-        }
-    }]);
-
-    return HomeScreen;
-}());
-
 app.controller('VotingScreen', function () {
     function VotingScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
         _classCallCheck(this, VotingScreen);
@@ -195,4 +180,19 @@ app.controller('VotingScreen', function () {
     }]);
 
     return VotingScreen;
+}());
+
+app.controller('HomeScreen', function () {
+    function HomeScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
+        _classCallCheck(this, HomeScreen);
+    }
+
+    _createClass(HomeScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log(this);
+        }
+    }]);
+
+    return HomeScreen;
 }());

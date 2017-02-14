@@ -3,14 +3,14 @@ tabs-component {
   display: flex;
   flex-direction: column;
   height: calc(100vh - 50px);
+  width: 100vw;
 
   .tabs {
     position: relative;
     overflow: visible;
     will-change: transform;
 
-    height: calc(100vh - 100px);
-    flex: 0 0 auto;
+
 
     transition: transform .3s cubic-bezier(0.785, 0.135, 0.150, 0.860);
 

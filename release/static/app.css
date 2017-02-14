@@ -16,23 +16,42 @@ body {
   min-width: 320px;
   background: #f8f8f8; }
 
+.body {
+  overflow: hidden;
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column; }
+
+[ui-view] {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+  overflow: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  width: 100vw; }
+
 .fa {
   line-height: inherit; }
 
 [screen] {
   opacity: 0;
-  padding-top: 50px;
   transition: .3s;
-  min-height: calc(100vh);
-  height: calc(100vh);
-  max-height: calc(100vh);
   position: relative;
   display: -ms-flexbox;
   display: flex;
   -ms-flex: 1 0 auto;
       flex: 1 0 auto;
   -ms-flex-direction: column;
-      flex-direction: column; }
+      flex-direction: column;
+  width: 100vw; }
   [screen].active {
     opacity: 1; }
 
@@ -140,8 +159,8 @@ md-input-container {
 .flex {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex: 1 0 auto;
-      flex: 1 0 auto;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
   -ms-flex-direction: column;
       flex-direction: column; }
   .flex.flex-row {
@@ -176,10 +195,7 @@ md-input-container {
         align-self: flex-end; }
 
 header-component {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 1000;
   background: white;
   color: #000;
@@ -207,14 +223,12 @@ tabs-component {
   display: flex;
   -ms-flex-direction: column;
       flex-direction: column;
-  height: calc(100vh - 50px); }
+  height: calc(100vh - 50px);
+  width: 100vw; }
   tabs-component .tabs {
     position: relative;
     overflow: visible;
     will-change: transform;
-    height: calc(100vh - 100px);
-    -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
     transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
     tabs-component .tabs .tab {
       width: 100vw;
