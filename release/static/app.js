@@ -102,6 +102,27 @@ app.service('Settings', function () {
     return Settings;
 }());
 
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent() {
+            _classCallCheck(this, headerComponent);
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -146,26 +167,20 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent() {
-            _classCallCheck(this, headerComponent);
+app.controller('HomeScreen', function () {
+    function HomeScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
+        _classCallCheck(this, HomeScreen);
+    }
+
+    _createClass(HomeScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log(this);
         }
+    }]);
 
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
+    return HomeScreen;
+}());
 
 app.controller('VotingScreen', function () {
     function VotingScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
@@ -180,19 +195,4 @@ app.controller('VotingScreen', function () {
     }]);
 
     return VotingScreen;
-}());
-
-app.controller('HomeScreen', function () {
-    function HomeScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
-        _classCallCheck(this, HomeScreen);
-    }
-
-    _createClass(HomeScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log(this);
-        }
-    }]);
-
-    return HomeScreen;
 }());
