@@ -102,27 +102,6 @@ app.service('Settings', function () {
     return Settings;
 }());
 
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent() {
-            _classCallCheck(this, headerComponent);
-        }
-
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
-
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -167,6 +146,27 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent() {
+            _classCallCheck(this, headerComponent);
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
 app.controller('HomeScreen', function () {
     function HomeScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
         _classCallCheck(this, HomeScreen);

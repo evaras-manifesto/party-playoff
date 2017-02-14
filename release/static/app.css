@@ -18,19 +18,18 @@ body {
 
 .body {
   overflow: hidden;
-  height: 100vh;
-  -ms-flex: 0 0 auto;
-      flex: 0 0 auto;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
-      flex-direction: column; }
+      flex-direction: column;
+  height: 100%; }
 
 [ui-view] {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex: 1 0 auto;
-      flex: 1 0 auto;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+  height: 100%;
   overflow: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -45,8 +44,8 @@ body {
   position: relative;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex: 1 0 auto;
-      flex: 1 0 auto;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
   -ms-flex-direction: column;
       flex-direction: column;
   width: 100vw; }
@@ -192,36 +191,13 @@ md-input-container {
     -ms-flex-item-align: end;
         align-self: flex-end; }
 
-header-component {
-  position: relative;
-  z-index: 1000;
-  background: white;
-  color: #000;
-  border-bottom: #ebebeb 1px solid; }
-  header-component .header {
-    height: 50px; }
-    header-component .header .header-icon {
-      height: 50px;
-      width: 50px;
-      max-width: 50px; }
-      header-component .header .header-icon img, header-component .header .header-icon object, header-component .header .header-icon svg {
-        height: 20px;
-        width: 20px;
-        fill: #000 !important; }
-    header-component .header .header-logo {
-      margin: auto;
-      font-family: 'Caveat Brush', cursive;
-      font-size: 26px;
-      cursor: pointer; }
-
 tabs-component {
-  -ms-flex: 0 0 auto;
-      flex: 0 0 auto;
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
       flex-direction: column;
-  height: calc(100vh - 50px);
   width: 100vw; }
   tabs-component .tabs {
     position: relative;
@@ -250,3 +226,25 @@ tabs-component {
         height: 22px;
         width: 22px;
         fill: #000 !important; }
+
+header-component {
+  position: relative;
+  z-index: 1000;
+  background: white;
+  color: #000;
+  border-bottom: #ebebeb 1px solid; }
+  header-component .header {
+    height: 50px; }
+    header-component .header .header-icon {
+      height: 50px;
+      width: 50px;
+      max-width: 50px; }
+      header-component .header .header-icon img, header-component .header .header-icon object, header-component .header .header-icon svg {
+        height: 20px;
+        width: 20px;
+        fill: #000 !important; }
+    header-component .header .header-logo {
+      margin: auto;
+      font-family: 'Caveat Brush', cursive;
+      font-size: 26px;
+      cursor: pointer; }
