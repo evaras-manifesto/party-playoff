@@ -51,11 +51,8 @@ body {
 }
 
 .body {
-  overflow: auto;
+  overflow: hidden;
   height: 100vh;
-  max-height: 100vh;
-  min-height: 100vh;
-  -webkit-overflow-scrolling: touch;
 
   flex: 0 0 auto;
   display: flex;
