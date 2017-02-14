@@ -17,10 +17,11 @@ body {
   background: #f8f8f8; }
 
 .body {
-  overflow: hidden;
+  overflow: auto;
   height: 100vh;
   max-height: 100vh;
   min-height: 100vh;
+  -webkit-overflow-scrolling: touch;
   -ms-flex: 0 0 auto;
       flex: 0 0 auto;
   display: -ms-flexbox;
@@ -194,28 +195,6 @@ md-input-container {
     -ms-flex-item-align: end;
         align-self: flex-end; }
 
-header-component {
-  position: relative;
-  z-index: 1000;
-  background: white;
-  color: #000;
-  border-bottom: #ebebeb 1px solid; }
-  header-component .header {
-    height: 50px; }
-    header-component .header .header-icon {
-      height: 50px;
-      width: 50px;
-      max-width: 50px; }
-      header-component .header .header-icon img, header-component .header .header-icon object, header-component .header .header-icon svg {
-        height: 20px;
-        width: 20px;
-        fill: #000 !important; }
-    header-component .header .header-logo {
-      margin: auto;
-      font-family: 'Caveat Brush', cursive;
-      font-size: 26px;
-      cursor: pointer; }
-
 tabs-component {
   -ms-flex: 0 0 auto;
       flex: 0 0 auto;
@@ -252,3 +231,25 @@ tabs-component {
         height: 22px;
         width: 22px;
         fill: #000 !important; }
+
+header-component {
+  position: relative;
+  z-index: 1000;
+  background: white;
+  color: #000;
+  border-bottom: #ebebeb 1px solid; }
+  header-component .header {
+    height: 50px; }
+    header-component .header .header-icon {
+      height: 50px;
+      width: 50px;
+      max-width: 50px; }
+      header-component .header .header-icon img, header-component .header .header-icon object, header-component .header .header-icon svg {
+        height: 20px;
+        width: 20px;
+        fill: #000 !important; }
+    header-component .header .header-logo {
+      margin: auto;
+      font-family: 'Caveat Brush', cursive;
+      font-size: 26px;
+      cursor: pointer; }
