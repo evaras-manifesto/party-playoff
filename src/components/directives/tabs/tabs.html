@@ -1,0 +1,13 @@
+<div class="tabs flex flex-row" ng-style="$ctrl.moveTabs()" ng-transclude="tabs">
+
+</div>
+
+<div class="tab-nav flex flex-min flex-row flex-align">
+    <div class="tab-icon flex flex-align flex-justify"
+         ng-repeat="icon in $ctrl.icons track by $index"
+         ng-click="$ctrl.setTab($index)">
+        <svg>
+            <use xlink:href="{{'static/svg/' + icon + '.svg#svg'}}"></use>
+        </svg>
+    </div>
+</div>

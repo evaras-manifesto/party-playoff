@@ -1,0 +1,50 @@
+tabs-component {
+  flex: 1 0 100%;
+  display: flex;
+  flex-direction: column;
+
+  .tabs {
+    position: relative;
+    overflow: visible;
+    will-change: transform;
+
+    transition: transform .3s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
+    .tab {
+      width: 100vw;
+      min-width: 100vw;
+    }
+
+  }
+
+  .tab-nav {
+    background: white;
+    color: $primary;
+    //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-top: darken($light, 5%) 1px solid;
+
+    .tab-icon {
+      height: 50px;
+      //width: 50px;
+      //max-width: 50px;
+      outline: none;
+
+      .icon-label {
+        color: $body;
+        font-size: 10px;
+        margin-top: 5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      img, object, svg {
+        height: 22px;
+        width: 22px;
+
+        fill: $primary !important;
+      }
+    }
+
+  }
+}

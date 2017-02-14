@@ -1,0 +1,38 @@
+<div screen="home">
+    <tabs-component icons="['user-3', 'diamond']">
+        <tabs class="tabs flex flex-row">
+            <div class="tab flex">
+                <div class="question flex flex-align flex-justify">
+                    <div class="large-text">Enter your player name.</div>
+                    <md-input-container style="margin-right: 10px;">
+                            <label style="bottom: 63px">Name</label>
+                            <input ng-model="user.title">
+                    </md-input-container>
+
+                    <md-button class="md-raised" ng-disabled="!user.title" ng-click="$root.$broadcast('setTab', 1)">Confirm</md-button>
+                </div>
+            </div>
+            <div class="tab">
+                <div class="container">
+                    <div class="section">
+                        <div class="section-title">Games</div>
+
+                        <div class="game flex flex-align flex-justify" ui-sref="voting">
+                            The Voting Game
+                        </div>
+
+                        <div class="game flex flex-align flex-justify">
+                            Cards Against Humanity
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </tabs>
+    </tabs-component>
+
+
+
+
+</div>

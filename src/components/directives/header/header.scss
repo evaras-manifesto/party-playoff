@@ -1,0 +1,36 @@
+header-component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  background: white;
+  color: $primary;
+  border-bottom:darken($light, 5%) 1px solid;
+
+  .header {
+    height: 50px;
+
+    .header-icon {
+      height: 50px;
+      width: 50px;
+      max-width: 50px;
+
+      img, object, svg {
+        height: 20px;
+        width: 20px;
+
+        fill: $primary !important;
+      }
+    }
+
+    .header-logo {
+      margin: auto;
+      font-family: 'Caveat Brush', cursive;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+  }
+}

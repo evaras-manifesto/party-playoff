@@ -1,0 +1,216 @@
+$body: #000;
+$primary: #2367a8;
+$secondary: #3b82b3;
+$primary: #000;
+$secondary: #000;
+$yellow: #ffee5f;
+$border: #e7e8e8;
+$light: #f8f8f8;
+
+//<link href="https://fonts.googleapis.com/css?family=Caveat+Brush" rel="stylesheet">
+
+html, body {
+  font-family: 'Lato', sans-serif;
+  overflow-x: hidden;
+  background: lighten($light, 2%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  font-weight: 500;
+  color: $body;
+  min-height: 100vh;
+}
+
+input, textarea {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  min-width: 320px;
+  background: $light;
+}
+
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 990px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 991px) {
+    @content;
+  }
+}
+
+.fa {
+  line-height: inherit;
+}
+
+[screen] {
+  opacity: 0;
+  padding-top: 50px;
+  transition: .3s;
+  //min-height: calc(100vh - 120px);
+  min-height: calc(100vh);
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.section-title {
+  padding: 5px 15px;
+  background: $primary;
+  color: white;
+  display: inline-block;
+  font-family: 'Caveat Brush', cursive;
+  font-size: 22px;
+  //border-radius: 4px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Oswald', sans-serif;
+  font-family: 'Lato', sans-serif;
+  font-family: 'Caveat Brush', cursive;
+  margin: 20px 0 0;
+  color: $primary;
+  font-weight: 600;
+  font-weight: normal;
+  line-height: 1;
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+h1 {
+  color: $secondary;
+  font-size: 30px;
+  font-weight: 600;
+  margin: 30px 0 20px;
+}
+
+h2 {
+  margin: 30px 0 20px;
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+p {
+  margin: 10px 0 0;
+  //font-size: 15px;
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+.dynamic {
+  opacity: 0;
+  transition: .3s;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.gap {
+  height: 30px;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.game {
+  height: 200px;
+  font-family: 'Caveat Brush', cursive;
+  background: $secondary;
+  color: white;
+  font-size: 40px;
+  //border-radius: 4px;
+  margin-top: 30px;
+  padding: 15px;
+  text-align: center;
+  line-height: 1.1;
+
+
+  background: $body;
+  //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  //border:darken($light, 5%) 1px solid;
+
+}
+
+.question {
+  background: $primary;
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.large-text {
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.md-button {
+  height: 45px;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+//.select {
+  md-input-container {
+    color:white;
+    width: 200px;
+    text-align: left;
+    margin-top: 60px;
+    font-weight: 800;
+
+    &.md-input-has-value label {
+      color: white;
+    }
+
+    &.md-input-has-value label {
+      color: rgba(255,255,255,0.3) !important;
+    }
+
+    &.md-input-focused label {
+      color: rgba(255,255,255,0.3) !important;
+    }
+
+    .md-text, .md-input {
+      font-size: 25px;
+    }
+
+    .md-select, .md-input {
+      height: 50px;
+      font-size: 25px;
+    }
+
+    .md-select-value {
+      height: 50px;
+      //color: white !important;
+    }
+
+    .md-select-placeholder, span, * {
+      color: white !important;
+      border-color: white !important;
+    }
+  }
+//}
