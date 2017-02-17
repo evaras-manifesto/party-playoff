@@ -53,12 +53,15 @@ body {
     opacity: 1; }
 
 .section-title {
-  padding: 5px 15px;
-  background: #000;
-  color: white;
+  padding: 7px 15px;
+  background: #eee;
   display: inline-block;
-  font-family: 'Caveat Brush', cursive;
-  font-size: 22px; }
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase; }
+  .section-title.block {
+    display: block;
+    text-align: center; }
 
 h1, h2, h3, h4, h5 {
   font-family: 'Oswald', sans-serif;
@@ -97,21 +100,23 @@ p {
     opacity: 1; }
 
 .gap {
-  height: 30px; }
+  height: 15px; }
 
 .section {
-  margin-top: 30px; }
+  margin-top: 15px; }
 
 .game {
   height: 200px;
-  font-family: 'Caveat Brush', cursive;
   background: #000;
   color: white;
-  font-size: 40px;
-  margin-top: 30px;
+  font-size: 30px;
+  margin-top: 15px;
   padding: 15px;
   text-align: center;
   line-height: 1.1;
+  font-weight: 700;
+  font-size: 25px;
+  font-weight: 800;
   background: #000; }
 
 .question {
@@ -123,6 +128,20 @@ p {
 .large-text {
   font-size: 25px;
   font-weight: 800; }
+
+.floating-button {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  background: black;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  line-height: 20px; }
 
 .md-button {
   height: 45px;
@@ -191,6 +210,28 @@ md-input-container {
     -ms-flex-item-align: end;
         align-self: flex-end; }
 
+header-component {
+  position: relative;
+  z-index: 1000;
+  background: white;
+  color: #000;
+  border-bottom: #ebebeb 1px solid; }
+  header-component .header {
+    height: 50px; }
+    header-component .header .header-icon {
+      height: 50px;
+      width: 50px;
+      max-width: 50px; }
+      header-component .header .header-icon img, header-component .header .header-icon object, header-component .header .header-icon svg {
+        height: 20px;
+        width: 20px;
+        fill: #000 !important; }
+    header-component .header .header-logo {
+      margin: auto;
+      font-family: 'Caveat Brush', cursive;
+      font-size: 26px;
+      cursor: pointer; }
+
 tabs-component {
   -ms-flex: 1 1 auto;
       flex: 1 1 auto;
@@ -226,25 +267,3 @@ tabs-component {
         height: 22px;
         width: 22px;
         fill: #000 !important; }
-
-header-component {
-  position: relative;
-  z-index: 1000;
-  background: white;
-  color: #000;
-  border-bottom: #ebebeb 1px solid; }
-  header-component .header {
-    height: 50px; }
-    header-component .header .header-icon {
-      height: 50px;
-      width: 50px;
-      max-width: 50px; }
-      header-component .header .header-icon img, header-component .header .header-icon object, header-component .header .header-icon svg {
-        height: 20px;
-        width: 20px;
-        fill: #000 !important; }
-    header-component .header .header-logo {
-      margin: auto;
-      font-family: 'Caveat Brush', cursive;
-      font-size: 26px;
-      cursor: pointer; }

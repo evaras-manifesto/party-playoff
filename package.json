@@ -26,6 +26,7 @@
     "lodash": "^4.3.0",
     "mongodb": "^2.2.23",
     "mongoose": "^4.8.2",
+    "socket.io": "^1.7.2",
     "yargs": "^6.6.0"
   }
 }

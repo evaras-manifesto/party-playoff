@@ -28,6 +28,7 @@ class Route {
             url,
             templateUrl: `${_.kebabCase(name)}-screen.html`,
             controller: _.upperFirst(_.camelCase(`${name}Screen`)),
+            controllerAs: '$ctrl',
             resolve
         });
     }

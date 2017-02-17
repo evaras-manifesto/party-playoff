@@ -6,16 +6,16 @@
                     <div class="large-text">Enter your player name.</div>
                     <md-input-container style="margin-right: 10px;">
                             <label style="bottom: 63px">Name</label>
-                            <input ng-model="user.title">
+                            <input ng-model="$ctrl.Settings.username">
                     </md-input-container>
 
-                    <md-button class="md-raised" ng-disabled="!user.title" ng-click="$root.$broadcast('setTab', 1)">Confirm</md-button>
+                    <md-button class="md-raised" ng-disabled="!$ctrl.Settings.username" ng-click="$root.$broadcast('setTab', 1)">Confirm</md-button>
                 </div>
             </div>
             <div class="tab">
+                <div class="section-title block">Games</div>
                 <div class="container">
                     <div class="section">
-                        <div class="section-title">Games</div>
 
                         <div class="game flex flex-align flex-justify" ui-sref="voting">
                             The Voting Game

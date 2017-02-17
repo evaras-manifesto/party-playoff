@@ -21,7 +21,6 @@ html, body {
 
 }
 
-
 input, textarea {
   -webkit-font-smoothing: antialiased;
   font-family: 'Lato', sans-serif;
@@ -62,7 +61,6 @@ body {
   flex: 1 1 auto;
   height: 100%;
 
-
   overflow: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -88,13 +86,19 @@ body {
 }
 
 .section-title {
-  padding: 5px 15px;
-  background: $primary;
-  color: white;
+  padding: 7px 15px;
+  background: #eee;
   display: inline-block;
-  font-family: 'Caveat Brush', cursive;
-  font-size: 22px;
-  //border-radius: 4px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+
+
+
+  &.block {
+    display:block;
+    text-align:center;
+  }
 }
 
 h1, h2, h3, h4, h5 {
@@ -147,30 +151,31 @@ p {
 }
 
 .gap {
-  height: 30px;
+  height: 15px;
 }
 
 .section {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .game {
   height: 200px;
-  font-family: 'Caveat Brush', cursive;
+  //font-family: 'Caveat Brush', cursive;
   background: $secondary;
   color: white;
-  font-size: 40px;
+  font-size: 30px;
   //border-radius: 4px;
-  margin-top: 30px;
+  margin-top: 15px;
   padding: 15px;
   text-align: center;
   line-height: 1.1;
-
+  font-weight: 700;
+  font-size: 25px;
+  font-weight: 800;
 
   background: $body;
   //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   //border:darken($light, 5%) 1px solid;
-
 }
 
 .question {
@@ -185,6 +190,23 @@ p {
   font-weight: 800;
 }
 
+.floating-button {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  background: black;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+
+  line-height: 20px;
+}
+
 .md-button {
   height: 45px;
   padding: 0 20px;
@@ -193,42 +215,43 @@ p {
 }
 
 //.select {
-  md-input-container {
-    color:white;
-    width: 200px;
-    text-align: left;
-    margin-top: 60px;
-    font-weight: 800;
+md-input-container {
+  color: white;
+  width: 200px;
+  text-align: left;
+  margin-top: 60px;
+  font-weight: 800;
 
-    &.md-input-has-value label {
-      color: white;
-    }
-
-    &.md-input-has-value label {
-      color: rgba(255,255,255,0.3) !important;
-    }
-
-    &.md-input-focused label {
-      color: rgba(255,255,255,0.3) !important;
-    }
-
-    .md-text, .md-input {
-      font-size: 25px;
-    }
-
-    .md-select, .md-input {
-      height: 50px;
-      font-size: 25px;
-    }
-
-    .md-select-value {
-      height: 50px;
-      //color: white !important;
-    }
-
-    .md-select-placeholder, span, * {
-      color: white !important;
-      border-color: white !important;
-    }
+  &.md-input-has-value label {
+    color: white;
   }
+
+  &.md-input-has-value label {
+    color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  &.md-input-focused label {
+    color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  .md-text, .md-input {
+    font-size: 25px;
+  }
+
+  .md-select, .md-input {
+    height: 50px;
+    font-size: 25px;
+  }
+
+  .md-select-value {
+    height: 50px;
+    //color: white !important;
+  }
+
+  .md-select-placeholder, span, * {
+    color: white !important;
+    border-color: white !important;
+  }
+}
+
 //}

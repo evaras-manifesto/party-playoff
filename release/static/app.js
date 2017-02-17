@@ -6,6 +6,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var app = angular.module('app', ['ui.router', 'ngMaterial']);
 
+app.run(function () {
+    // var socket = io();
+});
+
 app.directive('ngEnter', function () {
     return function (scope, element, attrs) {
         element.bind('keypress', function (event) {
@@ -18,6 +22,14 @@ app.directive('ngEnter', function () {
     };
 });
 
+var socket = io();
+
+socket.on('connect', function () {
+    return console.log('connected!');
+});
+socket.on('disconnect', function () {
+    return console.log('disconnected!');
+});
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     //this controls the animations for each transition
@@ -49,6 +61,7 @@ var Route = function Route(name, url, resolve) {
         url: url,
         templateUrl: _.kebabCase(name) + '-screen.html',
         controller: _.upperFirst(_.camelCase(name + 'Screen')),
+        controllerAs: '$ctrl',
         resolve: resolve
     });
 };
@@ -91,7 +104,7 @@ app.service('Settings', function () {
     function Settings($state, $stateParams, $timeout, $http) {
         _classCallCheck(this, Settings);
 
-        this;
+        this.username = '';
     }
 
     _createClass(Settings, [{
@@ -101,6 +114,27 @@ app.service('Settings', function () {
 
     return Settings;
 }());
+
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent() {
+            _classCallCheck(this, headerComponent);
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
 
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
@@ -146,30 +180,52 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.component('headerComponent', {
-    templateUrl: 'header.html',
+app.component('votingHomeComponent', {
+    templateUrl: 'voting-home.html',
     controllerAs: '$ctrl',
     transclude: {},
     bindings: {},
     controller: function () {
-        function headerComponent() {
-            _classCallCheck(this, headerComponent);
-        }
+        _createClass(votingHomeComponent, [{
+            key: 'events',
+            value: function events() {
+                var _this2 = this;
 
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('header');
+                socket.on('allGamesList', function (data) {
+                    console.info('allGamesList', data);
+                    _this2.games = data;
+                    _this2.$scope.$apply();
+                    // console.info('apply', data[0]);
+                });
             }
         }]);
 
-        return headerComponent;
+        function votingHomeComponent(Settings, $scope) {
+            _classCallCheck(this, votingHomeComponent);
+
+            this.Settings = Settings;
+            this.$scope = $scope;
+            this.games = [];
+        }
+
+        _createClass(votingHomeComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this);
+                this.events();
+
+                socket.emit('getAllGames', { username: this.Settings.username });
+            }
+        }]);
+
+        return votingHomeComponent;
     }()
 });
-
 app.controller('HomeScreen', function () {
-    function HomeScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
+    function HomeScreen(Settings) {
         _classCallCheck(this, HomeScreen);
+
+        this.Settings = Settings;
     }
 
     _createClass(HomeScreen, [{
@@ -183,7 +239,7 @@ app.controller('HomeScreen', function () {
 }());
 
 app.controller('VotingScreen', function () {
-    function VotingScreen($element, $timeout, $interval, $scope, $rootScope, $compile) {
+    function VotingScreen() {
         _classCallCheck(this, VotingScreen);
     }
 
@@ -195,4 +251,19 @@ app.controller('VotingScreen', function () {
     }]);
 
     return VotingScreen;
+}());
+
+app.controller('VotingGameScreen', function () {
+    function VotingGameScreen() {
+        _classCallCheck(this, VotingGameScreen);
+    }
+
+    _createClass(VotingGameScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log(this);
+        }
+    }]);
+
+    return VotingGameScreen;
 }());

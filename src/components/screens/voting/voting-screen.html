@@ -1,28 +1,3 @@
 <div screen="voting">
-    <tabs-component icons="['play-button', 'list-1', 'tabs']">
-        <tabs class="tabs flex flex-row">
-            <div class="tab flex">
-                <div class="question flex flex-align flex-justify">
-                    <div class="large-text">Who would live to be 120 and accomplish nothing notable?</div>
-                    <md-input-container style="margin-right: 10px;">
-                        <label>Select a person</label>
-                        <md-select ng-model="size">
-                            <md-option>Select</md-option>
-                            <md-option value="Nathan">Nathan</md-option>
-                            <md-option value="Adrian">Adrian</md-option>
-                            <md-option value="Billy">Billy</md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-            </div>
-            <div class="tab">
-                <div class="section-title">Scoreboard</div>
-
-            </div>
-            <div class="tab">
-                <div class="section-title">My Cards</div>
-
-            </div>
-        </tabs>
-    </tabs-component>
+    <voting-home-component></voting-home-component>
 </div>

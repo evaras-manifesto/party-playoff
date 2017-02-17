@@ -26,5 +26,10 @@ const server = app.listen(port, () => {
 //define our routes
 routes.init(app);
 
+const io = require('socket.io')(server);
+
+const socket = require('./services/socket');
+socket.events(io);
+
 //in case we need the instance later
 module.exports = server;

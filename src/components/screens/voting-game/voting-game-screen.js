@@ -1,6 +1,7 @@
-app.controller('VotingScreen', class VotingScreen {
+app.controller('VotingGameScreen', class VotingGameScreen {
 
     constructor() {
+
     }
 
     $onInit() {

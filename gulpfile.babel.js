@@ -93,7 +93,8 @@ gulp.task('gen-lib-js', () =>
         'src/bower-components/angular-material/angular-material.js',
         'src/bower-components/lodash/dist/lodash.min.js',
         'src/bower-components/fastclick/lib/fastclick.js',
-        'src/bower-components/inobounce/inobounce.js'
+        'src/bower-components/inobounce/inobounce.js',
+        'src/bower-components/socket.io-client/dist/socket.io.js',
     ])
         .pipe(concat('lib.js'))
         .pipe(gulp.dest("release/static"))
