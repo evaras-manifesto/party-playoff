@@ -200,7 +200,7 @@ app.component('votingHomeComponent', {
             }
         }]);
 
-        function votingHomeComponent(Settings, $scope) {
+        function votingHomeComponent(Settings, $scope, $mdDialog) {
             _classCallCheck(this, votingHomeComponent);
 
             this.Settings = Settings;
