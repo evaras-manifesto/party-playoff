@@ -12,6 +12,20 @@ module.exports = {
         io.on('connection', (socket) => {
             console.log('a user connected');
 
+            socket.on('joinGameRoom', (data, send) => {
+                console.log('joinGameRoom', data);
+
+                _.forEach(socket.rooms, (eachRoom, index) => {
+                    console.log(eachRoom, index);
+                    socket.leave(eachRoom);
+                });
+
+                socket.join(data.gameId);
+
+                io.to(data.gameId).emit('updateGame', {message: `${data.username} has connected!`});
+                send('complete')
+            });
+
             socket.on('getAllGames', (data, send) => {
                 //{username:"Nazzanuk"}
                 console.log('getAllGames', data);
@@ -29,12 +43,39 @@ module.exports = {
                     players: [data.username]
                 });
 
-                console.log('game', game);
-
                 game.save()
-                    .then(data => {
-                        console.log('game created', data);
-                        return data;
+                    .then(send, stdErr);
+            });
+
+            socket.on('joinGame', (data, send) => {
+                //{gameId:1, username:"Nazzanuk"}
+                console.log('joinGame', data);
+
+                Game.findOne({_id: data.gameId})
+                    .then(game => {
+                        game.players.push(data.username);
+                        return game.save();
+                    })
+                    .then(game => {
+                        io.to(data.gameId).emit('updateGame', {message: `${data.username} has joined the game!`});
+                        return game;
+                    })
+                    .then(send, stdErr);
+            });
+
+            socket.on('startGame', (data, send) => {
+                //{gameId:1, username:"Nazzanuk"}
+                console.log('startGame', data);
+
+                Game.findOne({_id: data.gameId})
+                    .then(game => {
+                        game.status = 'started';
+                        game.currentRound = 0;
+                        return game.save();
+                    })
+                    .then(game => {
+                        io.to(data.gameId).emit('updateGame', {message: `${data.username} has started the game!`});
+                        return game;
                     })
                     .then(send, stdErr);
             });

@@ -2,16 +2,18 @@
     <tabs-component icons="['gamepad3', 'podium', 'bubbles5']">
         <tabs class="tabs flex flex-row">
             <div class="tab flex">
-                <!--<div class="section-title block">Game</div>-->
-                <div class="back-primary flex flex-align flex-justify">
+                <div ng-if="$ctrl.isStatus('new')" class="back-primary flex flex-align flex-justify">
                     <p ng-if="$ctrl.isHost() && !$ctrl.canStart()">Waiting for more players...</p>
                     <p ng-if="!$ctrl.isHost()">Waiting for admin to start...</p>
                     <p ng-if="!$ctrl.hasJoined()">
-                        <md-button class="md-raised" ng-click="$root.$broadcast('setTab', 1)">Join Game</md-button>
+                        <md-button class="md-raised" ng-click="$ctrl.joinGame()">Join Game</md-button>
                     </p>
                     <p ng-if="$ctrl.canStart()">
-                        <md-button class="md-raised" ng-click="$root.$broadcast('setTab', 1)">Start Game</md-button>
+                        <md-button class="md-raised" ng-click="$ctrl.startGame()">Start Game</md-button>
                     </p>
+                </div>
+                <div ng-if="$ctrl.isStatus('started')">
+
                 </div>
             </div>
 

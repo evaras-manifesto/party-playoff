@@ -213,6 +213,10 @@ md-input-container {
     color: white !important;
     border-color: white !important; }
 
+.md-toast-content {
+  margin: 0 15px 65px;
+  font-weight: 800; }
+
 .flex {
   display: -ms-flexbox;
   display: flex;

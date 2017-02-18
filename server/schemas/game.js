@@ -13,7 +13,7 @@ const schema = mongoose.Schema({
     cards: [],
     rounds: [],
     messages: [],
-    currentRound: {type: Number, default: 1},
+    currentRound: {type: Number, default: 0},
 });
 
 module.exports = mongoose.model('Game', schema);
