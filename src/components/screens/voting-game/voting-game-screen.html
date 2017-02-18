@@ -22,7 +22,7 @@
                     </p>
 
                     <!--card-->
-                    <div ng-if="!$ctrl.isTurn() && !$ctrl.hasVoted()" class="flex flex-min">
+                    <div ng-if="!$ctrl.hasVoted()" class="flex flex-min">
                         <md-input-container>
                             <label>Select</label>
                             <md-select ng-model="$ctrl.voteFor">
