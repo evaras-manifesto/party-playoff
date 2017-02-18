@@ -1,5 +1,7 @@
 app.controller('VotingGameScreen', class VotingGameScreen {
     events() {
+        socket.removeListener('updateGame');
+
         socket.on('updateGame', (data) => {
             console.log('received updateGame', data);
             if (data.message) {
@@ -22,8 +24,13 @@ app.controller('VotingGameScreen', class VotingGameScreen {
     }
 
     hasVoted(player = this.getPlayer()) {
-        console.log('hasVoted', this.game.rounds[this.getRound()].votes, player);
-        return _.some(this.game.rounds[this.getRound()].votes, {username: player});
+        console.log('hasVoted', this.getRound().votes, player);
+        return _.some(this.getRound().votes, {username: player});
+    }
+
+    hasGuessed(player = this.getPlayer()) {
+        console.log('hasGuessed', this.getRound().votes, player);
+        return _.some(this.getRound().votes, {username: player});
     }
 
     isTurn(player = this.getPlayer()) {
@@ -35,7 +42,7 @@ app.controller('VotingGameScreen', class VotingGameScreen {
     }
 
     getRound() {
-        return this.game.currentRound;
+        return this.game.rounds[this.game.currentRound];
     }
 
     getOtherPlayers(player = this.getPlayer()) {
@@ -82,8 +89,35 @@ app.controller('VotingGameScreen', class VotingGameScreen {
             });
     }
 
+    votesComplete() {
+        return this.getRound().votes.length == this.game.players.length;
+    }
+
+    guessesComplete() {
+        return this.getRound().guesses.length == this.game.players.length;
+    }
+
+    getMyVotes() {
+        return _.filter(this.getRound().votes, {vote: this.getPlayer()});
+    }
+
+    getLocalState() {
+        let state = 'voting';
+
+        if (this.votesComplete()) {
+            state = 'guessing';
+        }
+
+        return state;
+    }
+
+    isLocalState(state) {
+
+        return state == this.getLocalState();
+    }
+
     vote() {
-        console.log('voteFor', this.voteFor)
+        console.log('voteFor', this.voteFor);
         socketReq('vote',
             {
                 username: this.getPlayer(),

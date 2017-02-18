@@ -5,7 +5,9 @@
 <div class="tab-nav flex flex-min flex-row flex-align">
     <div class="tab-icon flex flex-align flex-justify"
          ng-repeat="icon in $ctrl.icons track by $index"
-         ng-click="$ctrl.setTab($index)">
+         ng-click="$ctrl.setTab($index)"
+         ng-class="{active:$ctrl.isActive($index)}"
+    >
         <span class="icon-{{icon}}"></span>
     </div>
 </div>

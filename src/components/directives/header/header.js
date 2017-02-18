@@ -5,10 +5,12 @@ app.component('headerComponent', {
     bindings: {},
     controller: class headerComponent {
 
-        constructor() {}
+        constructor(Settings) {
+            this.Settings = Settings;
+        }
         
         $onInit() {
-            console.log('header')
+            console.log(this, 'header');
         }
     }
 });

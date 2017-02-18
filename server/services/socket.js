@@ -6,6 +6,8 @@ const Cards = require('./cards');
 
 const stdErr = err => res.status(400).json(err);
 
+const rooms = [];
+
 
 module.exports = {
     events: (io) => {
@@ -23,8 +25,12 @@ module.exports = {
             socket.on('joinGameRoom', (data, send) => {
                 console.log('joinGameRoom', data);
 
-                _.forEach(socket.rooms, (eachRoom, index) => {
-                    console.log(eachRoom, index);
+                if (!_.includes(rooms, data.gameId)) {
+                    rooms.push(data.gameId);
+                }
+
+                _.forEach(rooms, (eachRoom, index) => {
+                    console.log('room', eachRoom, index);
                     socket.leave(eachRoom);
                 });
 

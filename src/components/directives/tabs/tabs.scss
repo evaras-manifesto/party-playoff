@@ -10,9 +10,8 @@ tabs-component {
     overflow: visible;
     will-change: transform;
 
-
-
     transition: transform .3s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
 
     .tab {
       width: 100vw;
@@ -29,6 +28,9 @@ tabs-component {
     color: $primary;
     //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-top: #eee 1px solid;
+    position: relative;
+
+    z-index: 2000;
 
     .tab-icon {
       height: 50px;
@@ -36,6 +38,14 @@ tabs-component {
       //max-width: 50px;
       outline: none;
       font-size: 20px;
+      border-bottom: 3px solid transparent;
+      transition: .3s;
+      color: transparentize($primary, 0.7);
+
+      &.active {
+        border-bottom: 2px solid $primary;
+        color: $primary;
+      }
 
       .icon-label {
         color: $body;

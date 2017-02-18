@@ -237,6 +237,9 @@ md-input-container {
 .spinner--steps2 {
   animation: anim-rotate 1s infinite steps(12); }
 
+[ng-click] {
+  outline: none; }
+
 .flex {
   display: -ms-flexbox;
   display: flex;
@@ -318,11 +321,19 @@ tabs-component {
   tabs-component .tab-nav {
     background: white;
     color: #000;
-    border-top: #eee 1px solid; }
+    border-top: #eee 1px solid;
+    position: relative;
+    z-index: 2000; }
     tabs-component .tab-nav .tab-icon {
       height: 50px;
       outline: none;
-      font-size: 20px; }
+      font-size: 20px;
+      border-bottom: 3px solid transparent;
+      transition: .3s;
+      color: rgba(0, 0, 0, 0.3); }
+      tabs-component .tab-nav .tab-icon.active {
+        border-bottom: 2px solid #000;
+        color: #000; }
       tabs-component .tab-nav .tab-icon .icon-label {
         color: #000;
         font-size: 10px;

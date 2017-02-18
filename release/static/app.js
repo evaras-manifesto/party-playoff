@@ -107,20 +107,30 @@ app.service('API', function ($state, $stateParams, $timeout, $http) {
 });
 
 app.service('Settings', function () {
+    _createClass(Settings, [{
+        key: 'back',
+        value: function back() {
+            console.log('$state.current.name', this.$state.current.name);
+            var name = this.$state.current.name;
+
+            if (name == 'voting-game') {
+                this.$state.go('voting-home');
+            } else {
+                this.$state.go('home');
+            }
+        }
+    }]);
+
     function Settings($state, $stateParams, $timeout, $http) {
         _classCallCheck(this, Settings);
 
         this.username;
+        this.$state = $state;
 
         if (localStorage.getItem('username')) {
             this.username = localStorage.getItem('username');
         }
     }
-
-    _createClass(Settings, [{
-        key: '$onInit',
-        value: function $onInit() {}
-    }]);
 
     return Settings;
 }());
@@ -131,14 +141,16 @@ app.component('headerComponent', {
     transclude: {},
     bindings: {},
     controller: function () {
-        function headerComponent() {
+        function headerComponent(Settings) {
             _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
         }
 
         _createClass(headerComponent, [{
             key: '$onInit',
             value: function $onInit() {
-                console.log('header');
+                console.log(this, 'header');
             }
         }]);
 
@@ -157,6 +169,11 @@ app.component('tabsComponent', {
     },
     controller: function () {
         _createClass(tabsComponent, [{
+            key: 'isActive',
+            value: function isActive(index) {
+                return this.currentTab == index;
+            }
+        }, {
             key: 'setTab',
             value: function setTab(index) {
                 console.log(index);
@@ -223,6 +240,8 @@ app.controller('VotingGameScreen', function () {
         value: function events() {
             var _this2 = this;
 
+            socket.removeListener('updateGame');
+
             socket.on('updateGame', function (data) {
                 console.log('received updateGame', data);
                 if (data.message) {
@@ -250,8 +269,16 @@ app.controller('VotingGameScreen', function () {
         value: function hasVoted() {
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
-            console.log('hasVoted', this.game.rounds[this.getRound()].votes, player);
-            return _.some(this.game.rounds[this.getRound()].votes, { username: player });
+            console.log('hasVoted', this.getRound().votes, player);
+            return _.some(this.getRound().votes, { username: player });
+        }
+    }, {
+        key: 'hasGuessed',
+        value: function hasGuessed() {
+            var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
+
+            console.log('hasGuessed', this.getRound().votes, player);
+            return _.some(this.getRound().votes, { username: player });
         }
     }, {
         key: 'isTurn',
@@ -268,7 +295,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'getRound',
         value: function getRound() {
-            return this.game.currentRound;
+            return this.game.rounds[this.game.currentRound];
         }
     }, {
         key: 'getOtherPlayers',
@@ -330,6 +357,38 @@ app.controller('VotingGameScreen', function () {
                 console.info('startGame', data);
                 _this5.getGame();
             });
+        }
+    }, {
+        key: 'votesComplete',
+        value: function votesComplete() {
+            return this.getRound().votes.length == this.game.players.length;
+        }
+    }, {
+        key: 'guessesComplete',
+        value: function guessesComplete() {
+            return this.getRound().guesses.length == this.game.players.length;
+        }
+    }, {
+        key: 'getMyVotes',
+        value: function getMyVotes() {
+            return _.filter(this.getRound().votes, { vote: this.getPlayer() });
+        }
+    }, {
+        key: 'getLocalState',
+        value: function getLocalState() {
+            var state = 'voting';
+
+            if (this.votesComplete()) {
+                state = 'guessing';
+            }
+
+            return state;
+        }
+    }, {
+        key: 'isLocalState',
+        value: function isLocalState(state) {
+
+            return state == this.getLocalState();
         }
     }, {
         key: 'vote',

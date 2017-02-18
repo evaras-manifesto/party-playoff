@@ -9,6 +9,10 @@ app.component('tabsComponent', {
     },
     controller: class tabsComponent {
 
+        isActive(index) {
+            return this.currentTab == index;
+        };
+
         setTab(index) {
             console.log(index);
             return this.currentTab = index;
