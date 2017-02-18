@@ -6,7 +6,7 @@
                     <div class="large-text">Enter your player name.</div>
                     <md-input-container style="margin-right: 10px;">
                             <label style="bottom: 63px">Name</label>
-                            <input ng-model="$ctrl.Settings.username">
+                            <input ng-model="$ctrl.Settings.username" ng-change="$ctrl.saveUsername()">
                     </md-input-container>
 
                     <md-button class="md-raised" ng-disabled="!$ctrl.Settings.username" ng-click="$root.$broadcast('setTab', 1)">Confirm</md-button>

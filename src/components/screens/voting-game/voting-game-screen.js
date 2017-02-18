@@ -9,6 +9,8 @@ app.controller('VotingGameScreen', class VotingGameScreen {
             }
             this.getGame();
         });
+
+        socket.on('connect', () => this.joinGameRoom());
     }
 
     isStatus(status) {
