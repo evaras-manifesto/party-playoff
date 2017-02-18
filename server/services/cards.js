@@ -34,5 +34,13 @@ const cards = [
 module.exports = {
     generate() {
         return _.sampleSize(cards, 10);
+    },
+
+    generateRound(index) {
+        return {
+            index: index,
+            votes: [],
+            guesses: []
+        }
     }
 };

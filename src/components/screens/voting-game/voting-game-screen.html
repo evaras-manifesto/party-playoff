@@ -21,10 +21,11 @@
                         Who {{$ctrl.getCard()}}?
                     </p>
 
-                    <div ng-if="!$ctrl.isTurn()" class="flex flex-min">
+                    <!--card-->
+                    <div ng-if="!$ctrl.isTurn() && !$ctrl.hasVoted()" class="flex flex-min">
                         <md-input-container>
                             <label>Select</label>
-                            <md-select ng-model="voteFor">
+                            <md-select ng-model="$ctrl.voteFor">
                                 <md-option ng-value="">Select</md-option>
                                 <md-option
                                         ng-repeat="player in $ctrl.getOtherPlayers()"
@@ -35,9 +36,13 @@
                         </md-input-container>
 
                         <div style="height: 45px">
-                            <md-button class="md-raised" ng-if="voteFor" ng-click="$ctrl.voteFor(voteFor)">Vote!</md-button>
+                            <md-button class="md-raised" ng-if="$ctrl.voteFor" ng-click="$ctrl.vote($ctrl.voteFor)">Vote!</md-button>
                         </div>
                     </div>
+
+                    <p ng-if="$ctrl.hasVoted() || $ctrl.isTurn()">Waiting for the others... &nbsp; <span class="spinner icon-cog"></span></p>
+
+                    <!--guess-->
 
 
                 </div>

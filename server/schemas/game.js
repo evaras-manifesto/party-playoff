@@ -21,11 +21,16 @@ const round = {
     votes: [
         {
             username: 'Nazzanuk',
-            votedFor: 'Adrian'
+            vote: 'Adrian'
         }
     ],
 
-
+    guesses: [
+        {
+            username: 'Nazzanuk',
+            guess: 'Adrian'
+        }
+    ]
 };
 
 module.exports = mongoose.model('Game', schema);

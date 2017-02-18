@@ -2,6 +2,7 @@ const _ = require('lodash');
 // const Promise = require("bluebird");
 
 const Game = require('../schemas/game');
+const Cards = require('./cards');
 
 const stdErr = err => res.status(400).json(err);
 
@@ -11,6 +12,13 @@ module.exports = {
         console.log('io.on');
         io.on('connection', (socket) => {
             console.log('a user connected');
+
+            const sendUpdate = (id, message) => {
+                return (info) => {
+                    io.to(id).emit('updateGame', {message});
+                    return info;
+                }
+            };
 
             socket.on('joinGameRoom', (data, send) => {
                 console.log('joinGameRoom', data);
@@ -22,7 +30,7 @@ module.exports = {
 
                 socket.join(data.gameId);
 
-                io.to(data.gameId).emit('updateGame', {message: `${data.username} has connected!`});
+                sendUpdate(data.gameId, `${data.username} has connected!`)();
                 send('complete')
             });
 
@@ -51,15 +59,22 @@ module.exports = {
                 //{gameId:1, username:"Nazzanuk"}
                 console.log('joinGame', data);
 
-                Game.findOne({_id: data.gameId})
-                    .then(game => {
-                        game.players.push(data.username);
-                        return game.save();
+                Game.update({_id: data.gameId}, {$addToSet: {players: data.username}})
+                    .then(sendUpdate(data.gameId, `${data.username} has joined the game!`))
+                    .then(send, stdErr);
+            });
+
+            socket.on('vote', (data, send) => {
+                //{gameId:1, username:"Nazzanuk", vote:'Adrian', currentRound:0}
+                console.log('vote', data);
+
+                Game.update({_id: data.gameId, 'rounds.index': data.currentRound},
+                    {
+                        $addToSet: {
+                            'rounds.$.votes': {username: data.username, vote: data.vote}
+                        }
                     })
-                    .then(game => {
-                        io.to(data.gameId).emit('updateGame', {message: `${data.username} has joined the game!`});
-                        return game;
-                    })
+                    .then(sendUpdate(data.gameId, `${data.username} has voted!`))
                     .then(send, stdErr);
             });
 
@@ -67,16 +82,13 @@ module.exports = {
                 //{gameId:1, username:"Nazzanuk"}
                 console.log('startGame', data);
 
-                Game.findOne({_id: data.gameId})
-                    .then(game => {
-                        game.status = 'started';
-                        game.currentRound = 0;
-                        return game.save();
+                Game.update({_id: data.gameId},
+                    {
+                        status: 'started',
+                        currentRound: 0,
+                        rounds: [Cards.generateRound(0)]
                     })
-                    .then(game => {
-                        io.to(data.gameId).emit('updateGame', {message: `${data.username} has started the game!`});
-                        return game;
-                    })
+                    .then(sendUpdate(data.gameId, `${data.username} has started the game!`))
                     .then(send, stdErr);
             });
 

@@ -36,6 +36,42 @@ var socketReq = function socketReq(name, data, callback) {
         socket.emit(name, data, resolve);
     });
 };
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    //this controls the animations for each transition
+    var resolve = {
+        timeout: function timeout($timeout) {
+            $('[screen]').removeClass('active');
+            $timeout(function () {
+                return $('[screen]').addClass('active');
+            }, 350);
+            return $timeout(300);
+        }
+    };
+
+    // For any unmatched url, redirect to /
+    $urlRouterProvider.otherwise("/");
+
+    // Now set up the states
+    $stateProvider.state(new Route('home', "/", resolve)).state(new Route('voting-home', "/voting-home", resolve)).state(new Route('voting-game', "/voting-game/:gameId", resolve));
+
+    //use real urls instead of hashes
+    //$locationProvider.html5Mode(true);
+});
+
+var Route = function Route(name, url, resolve) {
+    _classCallCheck(this, Route);
+
+    _.extend(this, {
+        name: name,
+        url: url,
+        templateUrl: _.kebabCase(name) + '-screen.html',
+        controller: _.upperFirst(_.camelCase(name + 'Screen')),
+        controllerAs: '$ctrl',
+        resolve: resolve
+    });
+};
+
 app.service('API', function ($state, $stateParams, $timeout, $http) {
 
     var API = "/";
@@ -88,42 +124,6 @@ app.service('Settings', function () {
 
     return Settings;
 }());
-
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-    //this controls the animations for each transition
-    var resolve = {
-        timeout: function timeout($timeout) {
-            $('[screen]').removeClass('active');
-            $timeout(function () {
-                return $('[screen]').addClass('active');
-            }, 350);
-            return $timeout(300);
-        }
-    };
-
-    // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise("/");
-
-    // Now set up the states
-    $stateProvider.state(new Route('home', "/", resolve)).state(new Route('voting-home', "/voting-home", resolve)).state(new Route('voting-game', "/voting-game/:gameId", resolve));
-
-    //use real urls instead of hashes
-    //$locationProvider.html5Mode(true);
-});
-
-var Route = function Route(name, url, resolve) {
-    _classCallCheck(this, Route);
-
-    _.extend(this, {
-        name: name,
-        url: url,
-        templateUrl: _.kebabCase(name) + '-screen.html',
-        controller: _.upperFirst(_.camelCase(name + 'Screen')),
-        controllerAs: '$ctrl',
-        resolve: resolve
-    });
-};
 
 app.component('headerComponent', {
     templateUrl: 'header.html',
@@ -246,17 +246,29 @@ app.controller('VotingGameScreen', function () {
             return this.game.currentRound % 3;
         }
     }, {
+        key: 'hasVoted',
+        value: function hasVoted() {
+            var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
+
+            console.log('hasVoted', this.game.rounds[this.getRound()].votes, player);
+            return _.some(this.game.rounds[this.getRound()].votes, { username: player });
+        }
+    }, {
         key: 'isTurn',
         value: function isTurn() {
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
-            console.log('isTurn', this.getTurn(), this.game.players, player);
             return _.indexOf(this.game.players, player) == this.getTurn();
         }
     }, {
         key: 'getPlayer',
         value: function getPlayer() {
             return this.Settings.username;
+        }
+    }, {
+        key: 'getRound',
+        value: function getRound() {
+            return this.game.currentRound;
         }
     }, {
         key: 'getOtherPlayers',
@@ -320,14 +332,30 @@ app.controller('VotingGameScreen', function () {
             });
         }
     }, {
+        key: 'vote',
+        value: function vote() {
+            var _this6 = this;
+
+            console.log('voteFor', this.voteFor);
+            socketReq('vote', {
+                username: this.getPlayer(),
+                gameId: this.game._id,
+                vote: this.voteFor,
+                currentRound: this.game.currentRound
+            }).then(function (data) {
+                console.info('vote', data);
+                _this6.getGame();
+            });
+        }
+    }, {
         key: 'getGame',
         value: function getGame() {
-            var _this6 = this;
+            var _this7 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this6.game = data;
-                _this6.update();
+                _this7.game = data;
+                _this7.update();
             });
         }
     }, {
@@ -365,22 +393,22 @@ app.controller('VotingHomeScreen', function () {
     _createClass(VotingScreen, [{
         key: 'addGame',
         value: function addGame() {
-            var _this7 = this;
+            var _this8 = this;
 
             socketReq('addGame', { username: this.Settings.username }).then(function (data) {
                 console.info('addGame', data);
-                _this7.$state.go('voting-game', { gameId: data._id });
+                _this8.$state.go('voting-game', { gameId: data._id });
             });
         }
     }, {
         key: 'getAllGames',
         value: function getAllGames() {
-            var _this8 = this;
+            var _this9 = this;
 
             socketReq('getAllGames', { username: this.Settings.username }).then(function (data) {
                 console.info('getAllGames', data);
-                _this8.games = data;
-                _this8.$scope.$apply();
+                _this9.games = data;
+                _this9.$scope.$apply();
             });
         }
     }]);

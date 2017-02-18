@@ -21,13 +21,21 @@ app.controller('VotingGameScreen', class VotingGameScreen {
         return this.game.currentRound % 3;
     }
 
+    hasVoted(player = this.getPlayer()) {
+        console.log('hasVoted', this.game.rounds[this.getRound()].votes, player);
+        return _.some(this.game.rounds[this.getRound()].votes, {username: player});
+    }
+
     isTurn(player = this.getPlayer()) {
-        console.log('isTurn', this.getTurn(), this.game.players, player);
         return _.indexOf(this.game.players, player) == this.getTurn();
     }
 
     getPlayer() {
         return this.Settings.username;
+    }
+
+    getRound() {
+        return this.game.currentRound;
     }
 
     getOtherPlayers(player = this.getPlayer()) {
@@ -70,6 +78,21 @@ app.controller('VotingGameScreen', class VotingGameScreen {
         socketReq('startGame', {username: this.getPlayer(), gameId: this.game._id})
             .then((data) => {
                 console.info('startGame', data);
+                this.getGame();
+            });
+    }
+
+    vote() {
+        console.log('voteFor', this.voteFor)
+        socketReq('vote',
+            {
+                username: this.getPlayer(),
+                gameId: this.game._id,
+                vote: this.voteFor,
+                currentRound: this.game.currentRound
+            })
+            .then((data) => {
+                console.info('vote', data);
                 this.getGame();
             });
     }
