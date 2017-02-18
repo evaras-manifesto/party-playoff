@@ -14,7 +14,7 @@ module.exports = {
 
     addGame(socket, data) {
         new Game({host:data.username}).save()
-            .then(game => res.status(201).send(game), stdErr);
+            .then(game => socket.emit('gameCreated',game), stdErr);
 
     },
 

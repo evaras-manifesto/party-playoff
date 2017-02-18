@@ -52,6 +52,9 @@ body {
   [screen].active {
     opacity: 1; }
 
+.container-fluid {
+  width: 100%; }
+
 .section-title {
   padding: 7px 15px;
   background: #eee;
@@ -106,7 +109,7 @@ p {
   margin-top: 15px; }
 
 .game {
-  height: 200px;
+  height: 100px;
   background: #000;
   color: white;
   font-size: 30px;
@@ -115,11 +118,11 @@ p {
   text-align: center;
   line-height: 1.1;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 800;
   background: #000; }
 
-.question {
+.question, .back-primary {
   background: #000;
   color: white;
   padding: 30px;
@@ -148,6 +151,44 @@ p {
   padding: 0 20px;
   font-size: 16px;
   font-weight: 900; }
+  .md-button.md-primary {
+    background: #000 !important;
+    color: white; }
+    .md-button.md-primary[disabled] {
+      background: rgba(0, 0, 0, 0.3) !important;
+      color: rgba(0, 0, 0, 0.2); }
+
+.scoreboard {
+  background: #000;
+  color: white; }
+  .scoreboard .player {
+    height: 50px; }
+    .scoreboard .player .icon, .scoreboard .player .name, .scoreboard .player .score {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+          align-items: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+      font-size: 20px;
+      font-weight: 800; }
+    .scoreboard .player .icon {
+      height: 50px;
+      width: 50px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15); }
+    .scoreboard .player .name {
+      -ms-flex: 1;
+          flex: 1;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      -ms-flex-direction: row;
+          flex-direction: row;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+      padding: 0 15px;
+      font-size: 16px; }
+    .scoreboard .player .score {
+      height: 50px;
+      width: 50px; }
 
 md-input-container {
   color: white;
@@ -215,7 +256,7 @@ header-component {
   z-index: 1000;
   background: white;
   color: #000;
-  border-bottom: #ebebeb 1px solid; }
+  border-bottom: #eee 1px solid; }
   header-component .header {
     height: 50px; }
     header-component .header .header-icon {
@@ -252,10 +293,12 @@ tabs-component {
       -webkit-overflow-scrolling: touch; }
   tabs-component .tab-nav {
     background: white;
-    color: #000; }
+    color: #000;
+    border-top: #eee 1px solid; }
     tabs-component .tab-nav .tab-icon {
       height: 50px;
-      outline: none; }
+      outline: none;
+      font-size: 20px; }
       tabs-component .tab-nav .tab-icon .icon-label {
         color: #000;
         font-size: 10px;

@@ -1,0 +1,19 @@
+<div screen="voting-home">
+    <div class="section-title block">All Games</div>
+
+    <div class="container-fluid">
+        <div class="section">
+
+            <div class="game flex flex-align flex-justify"
+                 ng-repeat="game in $ctrl.games"
+                 ng-bind="'Game ' + game._id"
+                 ui-sref="voting-game({gameId:game._id})"
+            ></div>
+
+        </div>
+    </div>
+
+    <div class="floating-button flex flex-align flex-justify" ng-click="$ctrl.addGame()">
+        <span>+</span>
+    </div>
+</div>

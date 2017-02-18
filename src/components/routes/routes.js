@@ -15,7 +15,8 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     // Now set up the states
     $stateProvider
         .state(new Route('home', "/", resolve))
-        .state(new Route('voting', "/voting", resolve))
+        .state(new Route('voting-home', "/voting-home", resolve))
+        .state(new Route('voting-game', "/voting-game/:gameId", resolve))
 
     //use real urls instead of hashes
     //$locationProvider.html5Mode(true);

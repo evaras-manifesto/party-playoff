@@ -16,3 +16,9 @@ var socket = io();
 
 socket.on('connect', () => console.log('connected!'));
 socket.on('disconnect', () => console.log('disconnected!'));
+
+var socketReq = (name, data, callback) => {
+    return new Promise(function (resolve, reject) {
+        socket.emit(name, data, resolve);
+    });
+};

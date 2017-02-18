@@ -28,13 +28,14 @@ tabs-component {
     background: white;
     color: $primary;
     //box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    //border-top: darken($light, 5%) 1px solid;
+    border-top: #eee 1px solid;
 
     .tab-icon {
       height: 50px;
       //width: 50px;
       //max-width: 50px;
       outline: none;
+      font-size: 20px;
 
       .icon-label {
         color: $body;
