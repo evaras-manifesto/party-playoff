@@ -5,7 +5,7 @@ app.controller('VotingGameScreen', class VotingGameScreen {
             if (data.message) {
                 this.$mdToast.show(this.$mdToast.simple()
                     .textContent(data.message)
-                    .hideDelay(2000));
+                    .hideDelay(1500));
             }
             this.getGame();
         });
@@ -22,11 +22,20 @@ app.controller('VotingGameScreen', class VotingGameScreen {
     }
 
     isTurn(player = this.getPlayer()) {
-        return _.findIndex(this.game.players, player) == this.getTurn();
+        console.log('isTurn', this.getTurn(), this.game.players, player);
+        return _.indexOf(this.game.players, player) == this.getTurn();
     }
 
     getPlayer() {
         return this.Settings.username;
+    }
+
+    getOtherPlayers(player = this.getPlayer()) {
+        return _.without(this.game.players, player);
+    }
+
+    getCard() {
+        return this.game.cards[this.game.currentRound];
     }
 
     isHost(player = this.getPlayer()) {

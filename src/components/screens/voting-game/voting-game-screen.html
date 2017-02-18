@@ -14,7 +14,30 @@
                 </div>
                 <div ng-if="$ctrl.isStatus('started')" class="back-primary flex flex-align flex-justify">
 
-                    <div class="large-text"></div>
+                    <p ng-if="$ctrl.isTurn()">
+                        <small>This is your question.</small>
+                    </p>
+                    <p class="large-text">
+                        Who {{$ctrl.getCard()}}?
+                    </p>
+
+                    <div ng-if="!$ctrl.isTurn()" class="flex flex-min">
+                        <md-input-container>
+                            <label>Select</label>
+                            <md-select ng-model="voteFor">
+                                <md-option ng-value="">Select</md-option>
+                                <md-option
+                                        ng-repeat="player in $ctrl.getOtherPlayers()"
+                                        ng-value="player"
+                                >{{player}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div style="height: 45px">
+                            <md-button class="md-raised" ng-if="voteFor" ng-click="$ctrl.voteFor(voteFor)">Vote!</md-button>
+                        </div>
+                    </div>
 
 
                 </div>

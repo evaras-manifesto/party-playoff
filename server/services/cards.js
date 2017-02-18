@@ -1,10 +1,5 @@
 const _ = require('lodash');
 
-
-const Game = require('../schemas/game');
-
-const stdErr = err => res.status(400).json(err);
-
 const cards = [
     'would live to be 120 years old and still achieve nothing',
     'would happily listen to one song for the rest of their life',
@@ -34,10 +29,10 @@ const cards = [
     `should be sent to a distant planet`,
     `would you want as your backup if shit went down`,
     `is probably thinking about something else right now`
-]
+];
 
 module.exports = {
-    generate(socket, data) {
+    generate() {
         return _.sampleSize(cards, 10);
     }
 };

@@ -11,10 +11,21 @@ const schema = mongoose.Schema({
     status: {type: String, default: 'new'},
     host: {type: String, required: true},
     players: [],
-    cards: {type:[], default: Cards.generate},
+    cards: {type: [], default: Cards.generate},
     rounds: [],
     messages: [],
     currentRound: {type: Number, default: 0},
 });
+
+const round = {
+    votes: [
+        {
+            username: 'Nazzanuk',
+            votedFor: 'Adrian'
+        }
+    ],
+
+
+};
 
 module.exports = mongoose.model('Game', schema);

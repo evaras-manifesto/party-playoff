@@ -36,42 +36,6 @@ var socketReq = function socketReq(name, data, callback) {
         socket.emit(name, data, resolve);
     });
 };
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-    //this controls the animations for each transition
-    var resolve = {
-        timeout: function timeout($timeout) {
-            $('[screen]').removeClass('active');
-            $timeout(function () {
-                return $('[screen]').addClass('active');
-            }, 350);
-            return $timeout(300);
-        }
-    };
-
-    // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise("/");
-
-    // Now set up the states
-    $stateProvider.state(new Route('home', "/", resolve)).state(new Route('voting-home', "/voting-home", resolve)).state(new Route('voting-game', "/voting-game/:gameId", resolve));
-
-    //use real urls instead of hashes
-    //$locationProvider.html5Mode(true);
-});
-
-var Route = function Route(name, url, resolve) {
-    _classCallCheck(this, Route);
-
-    _.extend(this, {
-        name: name,
-        url: url,
-        templateUrl: _.kebabCase(name) + '-screen.html',
-        controller: _.upperFirst(_.camelCase(name + 'Screen')),
-        controllerAs: '$ctrl',
-        resolve: resolve
-    });
-};
-
 app.service('API', function ($state, $stateParams, $timeout, $http) {
 
     var API = "/";
@@ -124,6 +88,42 @@ app.service('Settings', function () {
 
     return Settings;
 }());
+
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    //this controls the animations for each transition
+    var resolve = {
+        timeout: function timeout($timeout) {
+            $('[screen]').removeClass('active');
+            $timeout(function () {
+                return $('[screen]').addClass('active');
+            }, 350);
+            return $timeout(300);
+        }
+    };
+
+    // For any unmatched url, redirect to /
+    $urlRouterProvider.otherwise("/");
+
+    // Now set up the states
+    $stateProvider.state(new Route('home', "/", resolve)).state(new Route('voting-home', "/voting-home", resolve)).state(new Route('voting-game', "/voting-game/:gameId", resolve));
+
+    //use real urls instead of hashes
+    //$locationProvider.html5Mode(true);
+});
+
+var Route = function Route(name, url, resolve) {
+    _classCallCheck(this, Route);
+
+    _.extend(this, {
+        name: name,
+        url: url,
+        templateUrl: _.kebabCase(name) + '-screen.html',
+        controller: _.upperFirst(_.camelCase(name + 'Screen')),
+        controllerAs: '$ctrl',
+        resolve: resolve
+    });
+};
 
 app.component('headerComponent', {
     templateUrl: 'header.html',
@@ -226,7 +226,7 @@ app.controller('VotingGameScreen', function () {
             socket.on('updateGame', function (data) {
                 console.log('received updateGame', data);
                 if (data.message) {
-                    _this2.$mdToast.show(_this2.$mdToast.simple().textContent(data.message).hideDelay(2000));
+                    _this2.$mdToast.show(_this2.$mdToast.simple().textContent(data.message).hideDelay(1500));
                 }
                 _this2.getGame();
             });
@@ -250,12 +250,25 @@ app.controller('VotingGameScreen', function () {
         value: function isTurn() {
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
-            return _.findIndex(this.game.players, player) == this.getTurn();
+            console.log('isTurn', this.getTurn(), this.game.players, player);
+            return _.indexOf(this.game.players, player) == this.getTurn();
         }
     }, {
         key: 'getPlayer',
         value: function getPlayer() {
             return this.Settings.username;
+        }
+    }, {
+        key: 'getOtherPlayers',
+        value: function getOtherPlayers() {
+            var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
+
+            return _.without(this.game.players, player);
+        }
+    }, {
+        key: 'getCard',
+        value: function getCard() {
+            return this.game.cards[this.game.currentRound];
         }
     }, {
         key: 'isHost',
