@@ -28,12 +28,20 @@ const cards = [
     `would make a good rabbit`,
     `should be sent to a distant planet`,
     `would you want as your backup if shit went down`,
+    `has never experienced true anger`,
+    `can be a pretentious wanker`,
+    `is going to go down in the history books`,
+    `changes their mind every few days`,
+    `is a closet communist`,
+    `last series watched is Sex and the City`,
+    `has already done something stupid today`,
+    `wears socks with sandals`,
     `is probably thinking about something else right now`
 ];
 
 module.exports = {
     generate() {
-        return _.sampleSize(cards, 10);
+        return _.sampleSize(cards, 30);
     },
 
     generateRound(index) {
