@@ -177,7 +177,25 @@ app.controller('VotingGameScreen', class VotingGameScreen {
             })
             .then((data) => {
                 console.info('vote', data);
+                this.voteFor = undefined;
                 this.getGame();
+
+            });
+    }
+
+    sendChat() {
+        console.log('sendChat', this.chatMessage);
+        socketReq('sendChat',
+            {
+                username: this.getPlayer(),
+                gameId: this.game._id,
+                chatMessage: this.chatMessage
+            })
+            .then((data) => {
+                console.info('sendChat', data);
+                this.chatMessage = undefined;
+                this.getGame();
+
             });
     }
 

@@ -135,6 +135,29 @@ app.service('Settings', function () {
     return Settings;
 }());
 
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent(Settings) {
+            _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this, 'header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -184,29 +207,6 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent(Settings) {
-            _classCallCheck(this, headerComponent);
-
-            this.Settings = Settings;
-        }
-
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this, 'header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
-
 app.controller('HomeScreen', function () {
     _createClass(HomeScreen, [{
         key: 'saveUsername',
@@ -458,18 +458,35 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('vote', data);
+                _this8.voteFor = undefined;
                 _this8.getGame();
+            });
+        }
+    }, {
+        key: 'sendChat',
+        value: function sendChat() {
+            var _this9 = this;
+
+            console.log('sendChat', this.chatMessage);
+            socketReq('sendChat', {
+                username: this.getPlayer(),
+                gameId: this.game._id,
+                chatMessage: this.chatMessage
+            }).then(function (data) {
+                console.info('sendChat', data);
+                _this9.chatMessage = undefined;
+                _this9.getGame();
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this9 = this;
+            var _this10 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this9.game = data;
-                _this9.update();
+                _this10.game = data;
+                _this10.update();
             });
         }
     }, {
@@ -507,22 +524,22 @@ app.controller('VotingHomeScreen', function () {
     _createClass(VotingScreen, [{
         key: 'addGame',
         value: function addGame() {
-            var _this10 = this;
+            var _this11 = this;
 
             socketReq('addGame', { username: this.Settings.username }).then(function (data) {
                 console.info('addGame', data);
-                _this10.$state.go('voting-game', { gameId: data._id });
+                _this11.$state.go('voting-game', { gameId: data._id });
             });
         }
     }, {
         key: 'getAllGames',
         value: function getAllGames() {
-            var _this11 = this;
+            var _this12 = this;
 
             socketReq('getAllGames', { username: this.Settings.username }).then(function (data) {
                 console.info('getAllGames', data);
-                _this11.games = data;
-                _this11.$scope.$apply();
+                _this12.games = data;
+                _this12.$scope.$apply();
             });
         }
     }]);

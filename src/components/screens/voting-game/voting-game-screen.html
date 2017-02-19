@@ -115,9 +115,22 @@
                 </div>
             </div>
 
-            <div class="tab">
+            <div class="tab flex">
                 <div class="section-title block">Chat</div>
-                <div class="container">
+                <div class="chat-items flex">
+                    <div class="chat-floater">
+                        <div ng-repeat="message in $ctrl.game.messages">
+                            <div class="p-label">{{message.username}}</div>
+                            <div class="p-text">{{message.text}}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="chat-box flex flex-row">
+                    <textarea name="" id="" rows="4" ng-model="$ctrl.chatMessage"></textarea>
+                    <div class="chat-butn" ng-click="$ctrl.sendChat()"><span class="icon-paperplane"></span></div>
+
                 </div>
             </div>
 

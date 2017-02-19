@@ -18,6 +18,15 @@ module.exports = {
             const sendUpdate = (id, message) => {
                 return (info) => {
                     io.to(id).emit('updateGame', {message});
+                    // Game.update({_id: id},
+                    //     {
+                    //         $push: {
+                    //             messages: {username: 'GameBot', text: message}
+                    //         }
+                    //     })
+                    //     .then((game, z) => {
+                    //         console.log('update msg', z, game);
+                    //     });
                     return info;
                 }
             };
@@ -37,7 +46,7 @@ module.exports = {
                 socket.join(data.gameId);
 
                 sendUpdate(data.gameId, `${data.username} has connected!`)();
-                send('complete')
+                send('complete');
             });
 
             socket.on('getAllGames', (data, send) => {
@@ -45,6 +54,20 @@ module.exports = {
                 console.log('getAllGames', data);
 
                 Game.find({})
+                    .then(send, stdErr);
+            });
+
+            socket.on('sendChat', (data, send) => {
+                //{username:"Nazzanuk"}
+                console.log('sendChat', data);
+
+                Game.update({_id: data.gameId},
+                    {
+                        $push: {
+                            messages: {username: data.username, text: data.chatMessage}
+                        }
+                    })
+                    .then(sendUpdate(data.gameId, `${data.username}: ${data.chatMessage}`))
                     .then(send, stdErr);
             });
 
@@ -60,7 +83,7 @@ module.exports = {
                 Game.update({_id: data.gameId, 'rounds.index': data.currentRound},
                     {
                         $addToSet: {
-                            'rounds.$.winners': { $each:data.winners}
+                            'rounds.$.winners': {$each: data.winners}
                         }
                     })
                     .then(game => {
