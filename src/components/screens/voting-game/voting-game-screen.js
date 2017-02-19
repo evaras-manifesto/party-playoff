@@ -101,18 +101,68 @@ app.controller('VotingGameScreen', class VotingGameScreen {
         return _.filter(this.getRound().votes, {vote: this.getPlayer()});
     }
 
+    getWinners() {
+        let winners = _.chain(this.getRound().votes)
+            .countBy('vote')
+            .map((value, key) => ({username: key, votes: value}))
+            .sortBy('votes')
+            .value();
+
+        winners = _.chain(winners)
+            .filter({votes: _.maxBy(winners, 'votes')['votes']})
+            .map('username')
+            .value();
+
+        return winners;
+    };
+
+    getPlayerCards(player = this.getPlayer()) {
+        let cards = [];
+        this.game.rounds.forEach((round, index) => {
+            console.log('round', round, player, index)
+            if (_.includes(round.winners, player)) {
+                cards.push(this.game.cards[index]);
+            }
+        });
+
+        console.log('getPlayerCards', cards);
+
+        return cards;
+    }
+
+    getWinnersList() {
+        return this.list(this.getWinners());
+    };
+
+    list(arr) {
+        return arr.join(", ").replace(/, (?!.*, )/, " & ");
+    }
+
+    newRound() {
+        socketReq('newRound', {
+            username: this.getPlayer(),
+            gameId: this.game._id,
+            winners: this.getWinners(),
+            currentRound: this.game.currentRound
+        })
+            .then((data) => {
+                console.info('newRound', data);
+                this.getGame();
+            });
+    }
+
     getLocalState() {
         let state = 'voting';
 
         if (this.votesComplete()) {
             state = 'guessing';
+            state = 'finished';
         }
 
         return state;
     }
 
     isLocalState(state) {
-
         return state == this.getLocalState();
     }
 

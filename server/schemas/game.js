@@ -30,7 +30,9 @@ const round = {
             username: 'Nazzanuk',
             guess: 'Adrian'
         }
-    ]
+    ],
+
+    winners:[]
 };
 
 module.exports = mongoose.model('Game', schema);

@@ -48,6 +48,34 @@ module.exports = {
                     .then(send, stdErr);
             });
 
+            socket.on('newRound', (data, send) => {
+                //{
+                //   username: 'Nazzanuk',
+                //   gameId: 1,
+                //   winners: ['Nazzanuk', 'Adrian'],
+                //   currentRound: 1
+                // }
+                console.log('newRound', data);
+
+                Game.update({_id: data.gameId, 'rounds.index': data.currentRound},
+                    {
+                        $addToSet: {
+                            'rounds.$.winners': { $each:data.winners}
+                        }
+                    })
+                    .then(game => {
+                        return Game.update({_id: data.gameId},
+                            {
+                                currentRound: data.currentRound + 1,
+                                $push: {
+                                    'rounds': Cards.generateRound(data.currentRound + 1)
+                                }
+                            })
+                    })
+                    .then(sendUpdate(data.gameId, `${data.username} has started the next round!`))
+                    .then(send, stdErr);
+            });
+
             socket.on('addGame', (data, send) => {
                 //{username:"Nazzanuk"}
                 console.log('addGame', data);

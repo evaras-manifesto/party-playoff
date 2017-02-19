@@ -50,36 +50,35 @@
                     </div>
 
                     <!--guess-->
-                    <div class="flex flex-min" ng-if="$ctrl.isLocalState('guessing')">
+                    <!--<div class="flex flex-min" ng-if="$ctrl.isLocalState('guessing')">-->
+                        <!--<div></div>-->
+                        <!--<p>-->
+                            <!--<small>Who nominated you?</small></p>-->
+
+                        <!--&lt;!&ndash;<div ng-if="!$ctrl.hasGuessed()" class="flex flex-min">&ndash;&gt;-->
+                        <!--<md-input-container  ng-repeat="vote in $ctrl.getMyVotes()">-->
+                            <!--<label>Select</label>-->
+                            <!--<md-select ng-model="$ctrl.guessFor">-->
+                                <!--<md-option ng-value="">Select</md-option>-->
+                                <!--<md-option-->
+                                        <!--ng-repeat="player in $ctrl.getOtherPlayers()"-->
+                                        <!--ng-value="player"-->
+                                <!--&gt;{{player}}-->
+                                <!--</md-option>-->
+                            <!--</md-select>-->
+                        <!--</md-input-container>-->
+                    <!--</div>-->
+
+
+                    <div class="flex flex-min" ng-show="$ctrl.isLocalState('finished')">
                         <div></div>
-                        <p>
-                            <small>Who nominated you?</small></p>
-
-                        <!--<div ng-if="!$ctrl.hasGuessed()" class="flex flex-min">-->
-                        <md-input-container  ng-repeat="vote in $ctrl.getMyVotes()">
-                            <label>Select</label>
-                            <md-select ng-model="$ctrl.guessFor">
-                                <md-option ng-value="">Select</md-option>
-                                <md-option
-                                        ng-repeat="player in $ctrl.getOtherPlayers()"
-                                        ng-value="player"
-                                >{{player}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-
-                        <!--<div style="height: 45px">-->
-                        <!--<md-button class="md-raised" ng-if="$ctrl.guessFor" ng-click="$ctrl.guess($ctrl.guessFor)">Vote!</md-button>-->
-                        <!--</div>-->
-                        <!--</div>-->
-
-                        <!--<p ng-if="$ctrl.hasVoted()">-->
-                        <!--Waiting for the others... &nbsp;-->
-                        <!--<span class="spinner icon-cog"></span>-->
-                        <!--</p>-->
+                        <p class="large-text show-winner" ng-class="{active:$ctrl.isLocalState('finished')}">
+                            {{$ctrl.getWinnersList()}}.
+                        </p>
+                        <p style="margin-top:30px">
+                            <md-button class="md-raised" ng-if="$ctrl.isHost()" ng-click="$ctrl.newRound()">Next Round!</md-button>
+                        </p>
                     </div>
-
-
                 </div>
             </div>
 
@@ -91,11 +90,11 @@
                             <div class="player flex flex-row"
                                  ng-repeat="player in $ctrl.game.players"
                             >
-                                <div class="icon">
-                                    <span class="icon-star-full" ng-if="$ctrl.isTurn(player)"></span>
+                                <div class="indicator">
+                                    <span class="icon-arrow-right3" ng-if="$ctrl.isTurn(player)"></span>
                                 </div>
-                                <div class="name">{{player}}</div>
-                                <div class="score">23</div>
+                                <div class="name">{{player}} &nbsp; <small ng-if="$ctrl.isHost(player)">(host)</small></div>
+                                <div class="score">{{$ctrl.getPlayerCards(player).length}}</div>
                             </div>
                         </div>
                     </div>
@@ -105,6 +104,14 @@
             <div class="tab">
                 <div class="section-title block">My Cards</div>
                 <div class="container">
+                    <div class="question-cards flex flex-wrap">
+                        <div class="question-card flex flex-align flex-justify"
+                             ng-repeat="card in $ctrl.getPlayerCards()"
+                        >
+                            Who {{card}}?
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -115,8 +122,10 @@
             </div>
 
             <div class="tab">
-                <!--<div class="section-title block">Chat</div>-->
+                <div class="section-title block">Settings</div>
                 <div class="container">
+                    <div></div>
+                    <h2>Game Id: {{$ctrl.game._id}}</h2>
                 </div>
             </div>
 

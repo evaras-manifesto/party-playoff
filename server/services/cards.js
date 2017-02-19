@@ -40,7 +40,8 @@ module.exports = {
         return {
             index: index,
             votes: [],
-            guesses: []
+            guesses: [],
+            winners:[]
         }
     }
 };

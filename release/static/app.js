@@ -135,29 +135,6 @@ app.service('Settings', function () {
     return Settings;
 }());
 
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent(Settings) {
-            _classCallCheck(this, headerComponent);
-
-            this.Settings = Settings;
-        }
-
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this, 'header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
-
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -207,6 +184,29 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent(Settings) {
+            _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this, 'header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
 app.controller('HomeScreen', function () {
     _createClass(HomeScreen, [{
         key: 'saveUsername',
@@ -374,12 +374,68 @@ app.controller('VotingGameScreen', function () {
             return _.filter(this.getRound().votes, { vote: this.getPlayer() });
         }
     }, {
+        key: 'getWinners',
+        value: function getWinners() {
+            var winners = _.chain(this.getRound().votes).countBy('vote').map(function (value, key) {
+                return { username: key, votes: value };
+            }).sortBy('votes').value();
+
+            winners = _.chain(winners).filter({ votes: _.maxBy(winners, 'votes')['votes'] }).map('username').value();
+
+            return winners;
+        }
+    }, {
+        key: 'getPlayerCards',
+        value: function getPlayerCards() {
+            var _this6 = this;
+
+            var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
+
+            var cards = [];
+            this.game.rounds.forEach(function (round, index) {
+                console.log('round', round, player, index);
+                if (_.includes(round.winners, player)) {
+                    cards.push(_this6.game.cards[index]);
+                }
+            });
+
+            console.log('getPlayerCards', cards);
+
+            return cards;
+        }
+    }, {
+        key: 'getWinnersList',
+        value: function getWinnersList() {
+            return this.list(this.getWinners());
+        }
+    }, {
+        key: 'list',
+        value: function list(arr) {
+            return arr.join(", ").replace(/, (?!.*, )/, " & ");
+        }
+    }, {
+        key: 'newRound',
+        value: function newRound() {
+            var _this7 = this;
+
+            socketReq('newRound', {
+                username: this.getPlayer(),
+                gameId: this.game._id,
+                winners: this.getWinners(),
+                currentRound: this.game.currentRound
+            }).then(function (data) {
+                console.info('newRound', data);
+                _this7.getGame();
+            });
+        }
+    }, {
         key: 'getLocalState',
         value: function getLocalState() {
             var state = 'voting';
 
             if (this.votesComplete()) {
                 state = 'guessing';
+                state = 'finished';
             }
 
             return state;
@@ -387,13 +443,12 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'isLocalState',
         value: function isLocalState(state) {
-
             return state == this.getLocalState();
         }
     }, {
         key: 'vote',
         value: function vote() {
-            var _this6 = this;
+            var _this8 = this;
 
             console.log('voteFor', this.voteFor);
             socketReq('vote', {
@@ -403,18 +458,18 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('vote', data);
-                _this6.getGame();
+                _this8.getGame();
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this7 = this;
+            var _this9 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this7.game = data;
-                _this7.update();
+                _this9.game = data;
+                _this9.update();
             });
         }
     }, {
@@ -452,22 +507,22 @@ app.controller('VotingHomeScreen', function () {
     _createClass(VotingScreen, [{
         key: 'addGame',
         value: function addGame() {
-            var _this8 = this;
+            var _this10 = this;
 
             socketReq('addGame', { username: this.Settings.username }).then(function (data) {
                 console.info('addGame', data);
-                _this8.$state.go('voting-game', { gameId: data._id });
+                _this10.$state.go('voting-game', { gameId: data._id });
             });
         }
     }, {
         key: 'getAllGames',
         value: function getAllGames() {
-            var _this9 = this;
+            var _this11 = this;
 
             socketReq('getAllGames', { username: this.Settings.username }).then(function (data) {
                 console.info('getAllGames', data);
-                _this9.games = data;
-                _this9.$scope.$apply();
+                _this11.games = data;
+                _this11.$scope.$apply();
             });
         }
     }]);
