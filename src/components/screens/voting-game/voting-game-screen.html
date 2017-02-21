@@ -3,6 +3,10 @@
         <tabs class="tabs flex flex-row">
             <div class="tab flex">
                 <div ng-if="$ctrl.isStatus('new')" class="back-primary flex flex-align flex-justify">
+                    <div>Game ID:</div>
+                    <div class="huge-text" style="margin-bottom: 30px;">
+                         {{$ctrl.game._id}}
+                    </div>
                     <p ng-if="$ctrl.isHost() && !$ctrl.canStart()">Waiting for more players...</p>
                     <p ng-if="!$ctrl.isHost()">Waiting for admin to start...</p>
                     <p ng-if="!$ctrl.hasJoined()">

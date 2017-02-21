@@ -135,78 +135,6 @@ app.service('Settings', function () {
     return Settings;
 }());
 
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent(Settings) {
-            _classCallCheck(this, headerComponent);
-
-            this.Settings = Settings;
-        }
-
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this, 'header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
-
-app.component('tabsComponent', {
-    templateUrl: 'tabs.html',
-    controllerAs: '$ctrl',
-    transclude: {
-        tabs: '?tabs'
-    },
-    bindings: {
-        icons: '='
-    },
-    controller: function () {
-        _createClass(tabsComponent, [{
-            key: 'isActive',
-            value: function isActive(index) {
-                return this.currentTab == index;
-            }
-        }, {
-            key: 'setTab',
-            value: function setTab(index) {
-                console.log(index);
-                return this.currentTab = index;
-            }
-        }, {
-            key: 'moveTabs',
-            value: function moveTabs() {
-                return { transform: 'translateX(-' + this.currentTab + '00vw)' };
-            }
-        }]);
-
-        function tabsComponent($rootScope) {
-            var _this = this;
-
-            _classCallCheck(this, tabsComponent);
-
-            this.currentTab = 0;
-            $rootScope.$on('setTab', function (event, value) {
-                return _this.setTab(value);
-            });
-        }
-
-        _createClass(tabsComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this);
-            }
-        }]);
-
-        return tabsComponent;
-    }()
-});
 app.controller('HomeScreen', function () {
     _createClass(HomeScreen, [{
         key: 'saveUsername',
@@ -238,20 +166,20 @@ app.controller('VotingGameScreen', function () {
     _createClass(VotingGameScreen, [{
         key: 'events',
         value: function events() {
-            var _this2 = this;
+            var _this = this;
 
             socket.removeListener('updateGame');
 
             socket.on('updateGame', function (data) {
                 console.log('received updateGame', data);
                 if (data.message) {
-                    _this2.$mdToast.show(_this2.$mdToast.simple().textContent(data.message).hideDelay(1500));
+                    _this.$mdToast.show(_this.$mdToast.simple().textContent(data.message).hideDelay(1500));
                 }
-                _this2.getGame();
+                _this.getGame();
             });
 
             socket.on('connect', function () {
-                return _this2.joinGameRoom();
+                return _this.joinGameRoom();
             });
         }
     }, {
@@ -331,31 +259,31 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'joinGameRoom',
         value: function joinGameRoom() {
-            var _this3 = this;
+            var _this2 = this;
 
             socketReq('joinGameRoom', { username: this.getPlayer(), gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('joinGameRoom', data);
-                _this3.update();
+                _this2.update();
             });
         }
     }, {
         key: 'joinGame',
         value: function joinGame() {
-            var _this4 = this;
+            var _this3 = this;
 
             socketReq('joinGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('joinGame', data);
-                _this4.getGame();
+                _this3.getGame();
             });
         }
     }, {
         key: 'startGame',
         value: function startGame() {
-            var _this5 = this;
+            var _this4 = this;
 
             socketReq('startGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('startGame', data);
-                _this5.getGame();
+                _this4.getGame();
             });
         }
     }, {
@@ -387,7 +315,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'getPlayerCards',
         value: function getPlayerCards() {
-            var _this6 = this;
+            var _this5 = this;
 
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
@@ -395,7 +323,7 @@ app.controller('VotingGameScreen', function () {
             this.game.rounds.forEach(function (round, index) {
                 console.log('round', round, player, index);
                 if (_.includes(round.winners, player)) {
-                    cards.push(_this6.game.cards[index]);
+                    cards.push(_this5.game.cards[index]);
                 }
             });
 
@@ -416,7 +344,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'newRound',
         value: function newRound() {
-            var _this7 = this;
+            var _this6 = this;
 
             socketReq('newRound', {
                 username: this.getPlayer(),
@@ -425,7 +353,7 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('newRound', data);
-                _this7.getGame();
+                _this6.getGame();
             });
         }
     }, {
@@ -448,7 +376,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'vote',
         value: function vote() {
-            var _this8 = this;
+            var _this7 = this;
 
             console.log('voteFor', this.voteFor);
             socketReq('vote', {
@@ -458,14 +386,14 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('vote', data);
-                _this8.voteFor = undefined;
-                _this8.getGame();
+                _this7.voteFor = undefined;
+                _this7.getGame();
             });
         }
     }, {
         key: 'sendChat',
         value: function sendChat() {
-            var _this9 = this;
+            var _this8 = this;
 
             console.log('sendChat', this.chatMessage);
             socketReq('sendChat', {
@@ -474,19 +402,19 @@ app.controller('VotingGameScreen', function () {
                 chatMessage: this.chatMessage
             }).then(function (data) {
                 console.info('sendChat', data);
-                _this9.chatMessage = undefined;
-                _this9.getGame();
+                _this8.chatMessage = undefined;
+                _this8.getGame();
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this10 = this;
+            var _this9 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this10.game = data;
-                _this10.update();
+                _this9.game = data;
+                _this9.update();
             });
         }
     }, {
@@ -524,33 +452,51 @@ app.controller('VotingHomeScreen', function () {
     _createClass(VotingScreen, [{
         key: 'addGame',
         value: function addGame() {
-            var _this11 = this;
+            var _this10 = this;
 
             socketReq('addGame', { username: this.Settings.username }).then(function (data) {
                 console.info('addGame', data);
-                _this11.$state.go('voting-game', { gameId: data._id });
+                _this10.$state.go('voting-game', { gameId: data._id });
             });
         }
     }, {
-        key: 'getAllGames',
-        value: function getAllGames() {
+        key: 'getGame',
+        value: function getGame() {
+            var _this11 = this;
+
+            socketReq('getGame', { username: this.Settings.username, gameId: this.gameId }).then(function (data) {
+                if (data) {
+                    _this11.$state.go('voting-game', { gameId: _this11.gameId });
+                } else {
+                    _this11.$mdToast.show(_this11.$mdToast.simple().textContent('Game ' + _this11.gameId + ' does not exist.').hideDelay(1500));
+                }
+                console.info('getGame', data);
+                _this11.games = data;
+                _this11.$scope.$apply();
+            });
+        }
+    }, {
+        key: 'getMyGames',
+        value: function getMyGames() {
             var _this12 = this;
 
-            socketReq('getAllGames', { username: this.Settings.username }).then(function (data) {
-                console.info('getAllGames', data);
+            socketReq('getMyGames', { username: this.Settings.username }).then(function (data) {
+                console.info('getMyGames', data);
                 _this12.games = data;
                 _this12.$scope.$apply();
             });
         }
     }]);
 
-    function VotingScreen(Settings, $scope, $state) {
+    function VotingScreen(Settings, $scope, $state, $mdToast) {
         _classCallCheck(this, VotingScreen);
 
         this.Settings = Settings;
         this.$scope = $scope;
         this.$state = $state;
+        this.$mdToast = $mdToast;
         this.games = [];
+        this.gameId = "";
     }
 
     _createClass(VotingScreen, [{
@@ -558,9 +504,82 @@ app.controller('VotingHomeScreen', function () {
         value: function $onInit() {
             console.log(this);
 
-            this.getAllGames();
+            this.getMyGames();
         }
     }]);
 
     return VotingScreen;
 }());
+
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent(Settings) {
+            _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this, 'header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
+app.component('tabsComponent', {
+    templateUrl: 'tabs.html',
+    controllerAs: '$ctrl',
+    transclude: {
+        tabs: '?tabs'
+    },
+    bindings: {
+        icons: '='
+    },
+    controller: function () {
+        _createClass(tabsComponent, [{
+            key: 'isActive',
+            value: function isActive(index) {
+                return this.currentTab == index;
+            }
+        }, {
+            key: 'setTab',
+            value: function setTab(index) {
+                console.log(index);
+                return this.currentTab = index;
+            }
+        }, {
+            key: 'moveTabs',
+            value: function moveTabs() {
+                return { transform: 'translateX(-' + this.currentTab + '00vw)' };
+            }
+        }]);
+
+        function tabsComponent($rootScope) {
+            var _this13 = this;
+
+            _classCallCheck(this, tabsComponent);
+
+            this.currentTab = 0;
+            $rootScope.$on('setTab', function (event, value) {
+                return _this13.setTab(value);
+            });
+        }
+
+        _createClass(tabsComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this);
+            }
+        }]);
+
+        return tabsComponent;
+    }()
+});

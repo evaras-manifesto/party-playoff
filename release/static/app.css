@@ -135,10 +135,14 @@ p {
   font-size: 20px;
   font-weight: 800; }
 
+.huge-text {
+  font-size: 30px;
+  font-weight: 800; }
+
 .floating-button {
   position: fixed;
-  bottom: 10px;
-  right: 10px;
+  bottom: 15px;
+  right: 15px;
   border-radius: 100%;
   height: 50px;
   width: 50px;
@@ -147,7 +151,14 @@ p {
   color: white;
   font-size: 30px;
   cursor: pointer;
-  line-height: 20px; }
+  line-height: 20px;
+  z-index: 3000; }
+  .floating-button.high {
+    bottom: 65px; }
+  .floating-button.white {
+    background: white;
+    color: black;
+    border: 1px solid #eee; }
 
 .md-button {
   height: 45px;
