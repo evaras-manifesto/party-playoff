@@ -185,6 +185,7 @@ app.controller('VotingGameScreen', class VotingGameScreen {
 
     sendChat() {
         console.log('sendChat', this.chatMessage);
+        if (!this.chatMessage) return;
         socketReq('sendChat',
             {
                 username: this.getPlayer(),
