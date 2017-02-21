@@ -16,9 +16,15 @@
             </div>
             <div class="tab flex">
                 <div class="section-title block">My Games</div>
+                <div ng-show="!$ctrl.games.length" class="back-primary flex flex-align flex-justify transparent">
+                    <div class="large-text">No games joined yet!</div>
+                    <div style="height: 30px"></div>
+                </div>
 
                 <div class="container-fluid">
                     <div class="section">
+
+
 
                         <div class="game flex flex-align flex-justify"
                              ng-repeat="game in $ctrl.games"

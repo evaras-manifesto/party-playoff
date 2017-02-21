@@ -192,6 +192,11 @@ p {
   color: white;
   padding: 30px;
   text-align: center;
+
+  &.transparent {
+    color: inherit;
+    background: inherit;
+  }
 }
 
 .large-text {
