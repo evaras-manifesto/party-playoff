@@ -108,6 +108,25 @@ app.service('API', function ($state, $stateParams, $timeout, $http) {
 
 app.service('Settings', function () {
     _createClass(Settings, [{
+        key: 'events',
+        value: function events() {
+            var _this = this;
+
+            this.$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+                console.log('toState', toState);
+
+                if (toState.name != 'home' && toState.name != 'settings') {
+                    if (_this.username.length < 3) {
+                        event.preventDefault();
+                        _this.$state.go('settings');
+                    }
+                }
+                // event.preventDefault();
+                // transitionTo() promise will be rejected with
+                // a 'transition prevented' error
+            });
+        }
+    }, {
         key: 'showHeader',
         value: function showHeader() {
             var name = this.$state.current.name;
@@ -137,11 +156,14 @@ app.service('Settings', function () {
         }
     }]);
 
-    function Settings($state, $stateParams, $timeout, $http) {
+    function Settings($state, $stateParams, $timeout, $rootScope) {
         _classCallCheck(this, Settings);
 
         this.username = '';
         this.$state = $state;
+        this.$rootScope = $rootScope;
+
+        this.events();
 
         if (localStorage.getItem('username')) {
             this.username = localStorage.getItem('username');
@@ -152,6 +174,29 @@ app.service('Settings', function () {
 
     return Settings;
 }());
+
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent(Settings) {
+            _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this, 'header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
 
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
@@ -186,7 +231,7 @@ app.component('tabsComponent', {
         }]);
 
         function tabsComponent($rootScope, $element, $scope) {
-            var _this = this;
+            var _this2 = this;
 
             _classCallCheck(this, tabsComponent);
 
@@ -194,14 +239,14 @@ app.component('tabsComponent', {
             this.$scope = $scope;
             this.currentTab = 0;
             $rootScope.$on('setTab', function (event, value) {
-                return _this.setTab(value);
+                return _this2.setTab(value);
             });
         }
 
         _createClass(tabsComponent, [{
             key: '$onInit',
             value: function $onInit() {
-                var _this2 = this;
+                var _this3 = this;
 
                 console.log(this);
 
@@ -218,12 +263,12 @@ app.component('tabsComponent', {
 
                 mc.on("swipeleft", function (ev) {
                     console.log(ev.type + " gesture detected.");
-                    _this2.setTab(_this2.currentTab + 1);
+                    _this3.setTab(_this3.currentTab + 1);
                 });
 
                 mc.on("swiperight", function (ev) {
                     console.log(ev.type + " gesture detected.");
-                    _this2.setTab(_this2.currentTab - 1);
+                    _this3.setTab(_this3.currentTab - 1);
                 });
 
                 // var hammertime = new Hammer(this.$element, {});
@@ -242,29 +287,6 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent(Settings) {
-            _classCallCheck(this, headerComponent);
-
-            this.Settings = Settings;
-        }
-
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this, 'header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
-
 app.controller('HomeScreen', function () {
     _createClass(HomeScreen, [{
         key: 'saveUsername',
@@ -323,38 +345,38 @@ app.controller('VotingHomeScreen', function () {
     _createClass(VotingScreen, [{
         key: 'addGame',
         value: function addGame() {
-            var _this3 = this;
+            var _this4 = this;
 
             socketReq('addGame', { username: this.Settings.username }).then(function (data) {
                 console.info('addGame', data);
-                _this3.$state.go('voting-game', { gameId: data._id });
+                _this4.$state.go('voting-game', { gameId: data._id });
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this4 = this;
+            var _this5 = this;
 
             socketReq('getGame', { username: this.Settings.username, gameId: this.gameId }).then(function (data) {
                 if (data) {
-                    _this4.$state.go('voting-game', { gameId: _this4.gameId });
+                    _this5.$state.go('voting-game', { gameId: _this5.gameId });
                 } else {
-                    _this4.$mdToast.show(_this4.$mdToast.simple().textContent('Game ' + _this4.gameId + ' does not exist.').hideDelay(1500));
+                    _this5.$mdToast.show(_this5.$mdToast.simple().textContent('Game ' + _this5.gameId + ' does not exist.').hideDelay(1500));
                 }
                 console.info('getGame', data);
-                _this4.games = data;
-                _this4.$scope.$apply();
+                _this5.games = data;
+                _this5.$scope.$apply();
             });
         }
     }, {
         key: 'getMyGames',
         value: function getMyGames() {
-            var _this5 = this;
+            var _this6 = this;
 
             socketReq('getMyGames', { username: this.Settings.username }).then(function (data) {
                 console.info('getMyGames', data);
-                _this5.games = data;
-                _this5.$scope.$apply();
+                _this6.games = data;
+                _this6.$scope.$apply();
             });
         }
     }]);
@@ -386,20 +408,20 @@ app.controller('VotingGameScreen', function () {
     _createClass(VotingGameScreen, [{
         key: 'events',
         value: function events() {
-            var _this6 = this;
+            var _this7 = this;
 
             socket.removeListener('updateGame');
 
             socket.on('updateGame', function (data) {
                 console.log('received updateGame', data);
                 if (data.message) {
-                    _this6.$mdToast.show(_this6.$mdToast.simple().textContent(data.message).hideDelay(1500));
+                    _this7.$mdToast.show(_this7.$mdToast.simple().textContent(data.message).hideDelay(1500));
                 }
-                _this6.getGame();
+                _this7.getGame();
             });
 
             socket.on('connect', function () {
-                return _this6.joinGameRoom();
+                return _this7.joinGameRoom();
             });
         }
     }, {
@@ -479,31 +501,31 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'joinGameRoom',
         value: function joinGameRoom() {
-            var _this7 = this;
+            var _this8 = this;
 
             socketReq('joinGameRoom', { username: this.getPlayer(), gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('joinGameRoom', data);
-                _this7.update();
+                _this8.update();
             });
         }
     }, {
         key: 'joinGame',
         value: function joinGame() {
-            var _this8 = this;
+            var _this9 = this;
 
             socketReq('joinGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('joinGame', data);
-                _this8.getGame();
+                _this9.getGame();
             });
         }
     }, {
         key: 'startGame',
         value: function startGame() {
-            var _this9 = this;
+            var _this10 = this;
 
             socketReq('startGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('startGame', data);
-                _this9.getGame();
+                _this10.getGame();
             });
         }
     }, {
@@ -535,7 +557,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'getPlayerCards',
         value: function getPlayerCards() {
-            var _this10 = this;
+            var _this11 = this;
 
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
@@ -543,7 +565,7 @@ app.controller('VotingGameScreen', function () {
             this.game.rounds.forEach(function (round, index) {
                 console.log('round', round, player, index);
                 if (_.includes(round.winners, player)) {
-                    cards.push(_this10.game.cards[index]);
+                    cards.push(_this11.game.cards[index]);
                 }
             });
 
@@ -564,7 +586,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'newRound',
         value: function newRound() {
-            var _this11 = this;
+            var _this12 = this;
 
             socketReq('newRound', {
                 username: this.getPlayer(),
@@ -573,7 +595,7 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('newRound', data);
-                _this11.getGame();
+                _this12.getGame();
             });
         }
     }, {
@@ -596,7 +618,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'vote',
         value: function vote() {
-            var _this12 = this;
+            var _this13 = this;
 
             console.log('voteFor', this.voteFor);
             socketReq('vote', {
@@ -606,14 +628,14 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('vote', data);
-                _this12.voteFor = undefined;
-                _this12.getGame();
+                _this13.voteFor = undefined;
+                _this13.getGame();
             });
         }
     }, {
         key: 'sendChat',
         value: function sendChat() {
-            var _this13 = this;
+            var _this14 = this;
 
             console.log('sendChat', this.chatMessage);
             if (!this.chatMessage) return;
@@ -623,19 +645,19 @@ app.controller('VotingGameScreen', function () {
                 chatMessage: this.chatMessage
             }).then(function (data) {
                 console.info('sendChat', data);
-                _this13.chatMessage = undefined;
-                _this13.getGame();
+                _this14.chatMessage = undefined;
+                _this14.getGame();
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this14 = this;
+            var _this15 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this14.game = data;
-                _this14.update();
+                _this15.game = data;
+                _this15.update();
             });
         }
     }, {

@@ -9,7 +9,7 @@
                             <input ng-model="$ctrl.Settings.username" ng-change="$ctrl.saveUsername()">
                     </md-input-container>
 
-                    <md-button class="md-raised" ng-disabled="!$ctrl.Settings.username" ui-sref="voting-home">Confirm</md-button>
+                    <md-button class="md-raised" ng-disabled="$ctrl.Settings.username .length < 4" ui-sref="voting-home">Confirm</md-button>
                 </div>
             <!--</div>-->
             <!--<div class="tab">-->

@@ -1,5 +1,21 @@
 app.service('Settings', class Settings {
 
+    events() {
+        this.$rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams, options) => {
+            console.log('toState', toState);
+
+            if (toState.name != 'home' && toState.name != 'settings') {
+                if (this.username.length < 3) {
+                    event.preventDefault();
+                    this.$state.go('settings');
+                }
+            }
+            // event.preventDefault();
+            // transitionTo() promise will be rejected with
+            // a 'transition prevented' error
+        })
+    }
+
     showHeader() {
         let name = this.$state.current.name;
 
@@ -26,9 +42,12 @@ app.service('Settings', class Settings {
         }
     }
 
-    constructor ($state, $stateParams, $timeout, $http) {
+    constructor($state, $stateParams, $timeout, $rootScope) {
         this.username = '';
         this.$state = $state;
+        this.$rootScope = $rootScope;
+
+        this.events();
 
         if (localStorage.getItem('username')) {
             this.username = localStorage.getItem('username');
