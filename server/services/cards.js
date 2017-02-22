@@ -52,6 +52,9 @@ const cards = [
     `would you like to know what they are really thinking`,
     `deserves a holiday`,
     `needs a hug`,
+    `thinks they are a professional athlete`,
+    `gives awful hugs`,
+    `needs a chill pill`,
 ];
 
 module.exports = {
