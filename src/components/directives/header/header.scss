@@ -5,10 +5,12 @@ header-component {
   background: white;
   color: $primary;
   border-bottom: #eee 1px solid;
+  margin-top: -1px;
 
   .header {
     height: 50px;
     margin-top: -51px;
+    transition: .6s;
 
     &.active {
       margin-top: 0;
