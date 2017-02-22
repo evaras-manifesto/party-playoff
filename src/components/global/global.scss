@@ -227,13 +227,13 @@ p {
   z-index: 3000;
 
   &.high {
-    bottom:65px;
+    bottom: 65px;
   }
 
   &.white {
     background: white;
     color: black;
-    border:1px solid #eee;
+    border: 1px solid #eee;
   }
 }
 
@@ -385,6 +385,7 @@ md-input-container {
 //}
 
 .md-toast-content {
+  pointer-events: none;
   margin: 0 10px 60px;
   font-weight: 800;
 

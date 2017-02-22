@@ -6,6 +6,7 @@ app.controller('VotingGameScreen', class VotingGameScreen {
             console.log('received updateGame', data);
             if (data.message) {
                 this.$mdToast.show(this.$mdToast.simple()
+                    // .position('top left')
                     .textContent(data.message)
                     .hideDelay(1500));
             }
