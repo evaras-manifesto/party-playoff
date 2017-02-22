@@ -5,7 +5,7 @@ app.service('Settings', class Settings {
             console.log('toState', toState);
 
             if (toState.name != 'home' && toState.name != 'settings') {
-                if (this.username.length < 3) {
+                if (this.username.length < 4) {
                     event.preventDefault();
                     this.$state.go('settings');
                 }
@@ -25,7 +25,7 @@ app.service('Settings', class Settings {
             show = false;
         }
 
-        if (this.username.length < 3) {
+        if (this.username.length < 4) {
             show = false;
         }
 
