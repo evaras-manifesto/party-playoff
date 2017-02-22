@@ -7,7 +7,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var app = angular.module('app', ['ui.router', 'ngMaterial']);
 
 app.run(function () {
-    // var socket = io();
+    FastClick.attach(document.body);
 });
 
 app.directive('ngEnter', function () {

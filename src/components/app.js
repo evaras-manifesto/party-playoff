@@ -1,7 +1,7 @@
 var app = angular.module('app', ['ui.router', 'ngMaterial']);
 
 app.run(() => {
-    // var socket = io();
+    FastClick.attach(document.body);
 });
 
 app.directive('ngEnter', () => (scope, element, attrs) => {
