@@ -383,10 +383,14 @@ md-input-container {
 }
 
 //}
+md-toast {
+  bottom: unset;
+  top: 65px;
+}
 
 .md-toast-content {
   pointer-events: none;
-  margin: 0 10px 60px;
+  margin: 0 10px;
   font-weight: 800;
 
   background: white !important;

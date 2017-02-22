@@ -14,9 +14,7 @@ app.controller('VotingHomeScreen', class VotingScreen {
                 if (data) {
                     this.$state.go('voting-game', {gameId: this.gameId});
                 } else {
-                    this.$mdToast.show(this.$mdToast.simple()
-                        .textContent(`Game ${this.gameId} does not exist.`)
-                        .hideDelay(1500));
+                    this.Notifications.show(`Game ${this.gameId} does not exist.`);
                 }
                 console.info('getGame', data);
                 this.games = data;
@@ -33,11 +31,11 @@ app.controller('VotingHomeScreen', class VotingScreen {
             });
     }
 
-    constructor(Settings, $scope, $state, $mdToast) {
+    constructor(Settings, $scope, $state, Notifications) {
         this.Settings = Settings;
         this.$scope = $scope;
         this.$state = $state;
-        this.$mdToast = $mdToast;
+        this.Notifications = Notifications;
         this.games = [];
         this.gameId = "";
     }

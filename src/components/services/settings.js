@@ -42,7 +42,7 @@ app.service('Settings', class Settings {
         }
     }
 
-    constructor($state, $stateParams, $timeout, $rootScope) {
+    constructor($state, $stateParams, $timeout, $mdToast, $rootScope) {
         this.username = '';
         this.$state = $state;
         this.$rootScope = $rootScope;

@@ -5,10 +5,7 @@ app.controller('VotingGameScreen', class VotingGameScreen {
         socket.on('updateGame', (data) => {
             console.log('received updateGame', data);
             if (data.message) {
-                this.$mdToast.show(this.$mdToast.simple()
-                    // .position('top left')
-                    .textContent(data.message)
-                    .hideDelay(1500));
+                this.Notifications.show(data.message);
             }
             this.getGame();
         });
@@ -214,11 +211,12 @@ app.controller('VotingGameScreen', class VotingGameScreen {
         this.$scope.$apply();
     }
 
-    constructor(Settings, $scope, $stateParams, $mdToast) {
+    constructor(Settings, $scope, $stateParams, $mdToast, Notifications) {
         this.Settings = Settings;
         this.$stateParams = $stateParams;
         this.$scope = $scope;
         this.$mdToast = $mdToast;
+        this.Notifications = Notifications;
         this.game = {};
     }
 

@@ -106,19 +106,44 @@ app.service('API', function ($state, $stateParams, $timeout, $http) {
     };
 });
 
+app.service('Notifications', function () {
+    _createClass(Notifications, [{
+        key: 'show',
+        value: function show(message) {
+            var _this = this;
+
+            this.visible = true;
+            this.message = message;
+
+            this.$timeout(function () {
+                _this.visible = false;
+            }, 2000);
+        }
+    }]);
+
+    function Notifications($timeout) {
+        _classCallCheck(this, Notifications);
+
+        this.$timeout = $timeout;
+        this.visible = false;
+    }
+
+    return Notifications;
+}());
+
 app.service('Settings', function () {
     _createClass(Settings, [{
         key: 'events',
         value: function events() {
-            var _this = this;
+            var _this2 = this;
 
             this.$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
                 console.log('toState', toState);
 
                 if (toState.name != 'home' && toState.name != 'settings') {
-                    if (_this.username.length < 3) {
+                    if (_this2.username.length < 3) {
                         event.preventDefault();
-                        _this.$state.go('settings');
+                        _this2.$state.go('settings');
                     }
                 }
                 // event.preventDefault();
@@ -156,7 +181,7 @@ app.service('Settings', function () {
         }
     }]);
 
-    function Settings($state, $stateParams, $timeout, $rootScope) {
+    function Settings($state, $stateParams, $timeout, $mdToast, $rootScope) {
         _classCallCheck(this, Settings);
 
         this.username = '';
@@ -198,6 +223,28 @@ app.component('headerComponent', {
     }()
 });
 
+app.component('notificationComponent', {
+    templateUrl: 'notification.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function notificationComponent(Notifications) {
+            _classCallCheck(this, notificationComponent);
+
+            this.Notifications = Notifications;
+        }
+
+        _createClass(notificationComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('notificationComponent', this);
+            }
+        }]);
+
+        return notificationComponent;
+    }()
+});
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -231,7 +278,7 @@ app.component('tabsComponent', {
         }]);
 
         function tabsComponent($rootScope, $element, $scope) {
-            var _this2 = this;
+            var _this3 = this;
 
             _classCallCheck(this, tabsComponent);
 
@@ -239,14 +286,14 @@ app.component('tabsComponent', {
             this.$scope = $scope;
             this.currentTab = 0;
             $rootScope.$on('setTab', function (event, value) {
-                return _this2.setTab(value);
+                return _this3.setTab(value);
             });
         }
 
         _createClass(tabsComponent, [{
             key: '$onInit',
             value: function $onInit() {
-                var _this3 = this;
+                var _this4 = this;
 
                 console.log(this);
 
@@ -263,12 +310,12 @@ app.component('tabsComponent', {
 
                 mc.on("swipeleft", function (ev) {
                     console.log(ev.type + " gesture detected.");
-                    _this3.setTab(_this3.currentTab + 1);
+                    _this4.setTab(_this4.currentTab + 1);
                 });
 
                 mc.on("swiperight", function (ev) {
                     console.log(ev.type + " gesture detected.");
-                    _this3.setTab(_this3.currentTab - 1);
+                    _this4.setTab(_this4.currentTab - 1);
                 });
 
                 // var hammertime = new Hammer(this.$element, {});
@@ -341,89 +388,24 @@ app.controller('SettingsScreen', function () {
     return SettingsScreen;
 }());
 
-app.controller('VotingHomeScreen', function () {
-    _createClass(VotingScreen, [{
-        key: 'addGame',
-        value: function addGame() {
-            var _this4 = this;
-
-            socketReq('addGame', { username: this.Settings.username }).then(function (data) {
-                console.info('addGame', data);
-                _this4.$state.go('voting-game', { gameId: data._id });
-            });
-        }
-    }, {
-        key: 'getGame',
-        value: function getGame() {
-            var _this5 = this;
-
-            socketReq('getGame', { username: this.Settings.username, gameId: this.gameId }).then(function (data) {
-                if (data) {
-                    _this5.$state.go('voting-game', { gameId: _this5.gameId });
-                } else {
-                    _this5.$mdToast.show(_this5.$mdToast.simple().textContent('Game ' + _this5.gameId + ' does not exist.').hideDelay(1500));
-                }
-                console.info('getGame', data);
-                _this5.games = data;
-                _this5.$scope.$apply();
-            });
-        }
-    }, {
-        key: 'getMyGames',
-        value: function getMyGames() {
-            var _this6 = this;
-
-            socketReq('getMyGames', { username: this.Settings.username }).then(function (data) {
-                console.info('getMyGames', data);
-                _this6.games = data;
-                _this6.$scope.$apply();
-            });
-        }
-    }]);
-
-    function VotingScreen(Settings, $scope, $state, $mdToast) {
-        _classCallCheck(this, VotingScreen);
-
-        this.Settings = Settings;
-        this.$scope = $scope;
-        this.$state = $state;
-        this.$mdToast = $mdToast;
-        this.games = [];
-        this.gameId = "";
-    }
-
-    _createClass(VotingScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log(this);
-
-            this.getMyGames();
-        }
-    }]);
-
-    return VotingScreen;
-}());
-
 app.controller('VotingGameScreen', function () {
     _createClass(VotingGameScreen, [{
         key: 'events',
         value: function events() {
-            var _this7 = this;
+            var _this5 = this;
 
             socket.removeListener('updateGame');
 
             socket.on('updateGame', function (data) {
                 console.log('received updateGame', data);
                 if (data.message) {
-                    _this7.$mdToast.show(_this7.$mdToast.simple()
-                    // .position('top left')
-                    .textContent(data.message).hideDelay(1500));
+                    _this5.Notifications.show(data.message);
                 }
-                _this7.getGame();
+                _this5.getGame();
             });
 
             socket.on('connect', function () {
-                return _this7.joinGameRoom();
+                return _this5.joinGameRoom();
             });
         }
     }, {
@@ -503,31 +485,31 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'joinGameRoom',
         value: function joinGameRoom() {
-            var _this8 = this;
+            var _this6 = this;
 
             socketReq('joinGameRoom', { username: this.getPlayer(), gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('joinGameRoom', data);
-                _this8.update();
+                _this6.update();
             });
         }
     }, {
         key: 'joinGame',
         value: function joinGame() {
-            var _this9 = this;
+            var _this7 = this;
 
             socketReq('joinGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('joinGame', data);
-                _this9.getGame();
+                _this7.getGame();
             });
         }
     }, {
         key: 'startGame',
         value: function startGame() {
-            var _this10 = this;
+            var _this8 = this;
 
             socketReq('startGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('startGame', data);
-                _this10.getGame();
+                _this8.getGame();
             });
         }
     }, {
@@ -559,7 +541,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'getPlayerCards',
         value: function getPlayerCards() {
-            var _this11 = this;
+            var _this9 = this;
 
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
@@ -567,7 +549,7 @@ app.controller('VotingGameScreen', function () {
             this.game.rounds.forEach(function (round, index) {
                 console.log('round', round, player, index);
                 if (_.includes(round.winners, player)) {
-                    cards.push(_this11.game.cards[index]);
+                    cards.push(_this9.game.cards[index]);
                 }
             });
 
@@ -588,7 +570,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'newRound',
         value: function newRound() {
-            var _this12 = this;
+            var _this10 = this;
 
             socketReq('newRound', {
                 username: this.getPlayer(),
@@ -597,7 +579,7 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('newRound', data);
-                _this12.getGame();
+                _this10.getGame();
             });
         }
     }, {
@@ -620,7 +602,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'vote',
         value: function vote() {
-            var _this13 = this;
+            var _this11 = this;
 
             console.log('voteFor', this.voteFor);
             socketReq('vote', {
@@ -630,14 +612,14 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('vote', data);
-                _this13.voteFor = undefined;
-                _this13.getGame();
+                _this11.voteFor = undefined;
+                _this11.getGame();
             });
         }
     }, {
         key: 'sendChat',
         value: function sendChat() {
-            var _this14 = this;
+            var _this12 = this;
 
             console.log('sendChat', this.chatMessage);
             if (!this.chatMessage) return;
@@ -647,19 +629,19 @@ app.controller('VotingGameScreen', function () {
                 chatMessage: this.chatMessage
             }).then(function (data) {
                 console.info('sendChat', data);
-                _this14.chatMessage = undefined;
-                _this14.getGame();
+                _this12.chatMessage = undefined;
+                _this12.getGame();
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this15 = this;
+            var _this13 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this15.game = data;
-                _this15.update();
+                _this13.game = data;
+                _this13.update();
             });
         }
     }, {
@@ -669,13 +651,14 @@ app.controller('VotingGameScreen', function () {
         }
     }]);
 
-    function VotingGameScreen(Settings, $scope, $stateParams, $mdToast) {
+    function VotingGameScreen(Settings, $scope, $stateParams, $mdToast, Notifications) {
         _classCallCheck(this, VotingGameScreen);
 
         this.Settings = Settings;
         this.$stateParams = $stateParams;
         this.$scope = $scope;
         this.$mdToast = $mdToast;
+        this.Notifications = Notifications;
         this.game = {};
     }
 
@@ -691,4 +674,67 @@ app.controller('VotingGameScreen', function () {
     }]);
 
     return VotingGameScreen;
+}());
+
+app.controller('VotingHomeScreen', function () {
+    _createClass(VotingScreen, [{
+        key: 'addGame',
+        value: function addGame() {
+            var _this14 = this;
+
+            socketReq('addGame', { username: this.Settings.username }).then(function (data) {
+                console.info('addGame', data);
+                _this14.$state.go('voting-game', { gameId: data._id });
+            });
+        }
+    }, {
+        key: 'getGame',
+        value: function getGame() {
+            var _this15 = this;
+
+            socketReq('getGame', { username: this.Settings.username, gameId: this.gameId }).then(function (data) {
+                if (data) {
+                    _this15.$state.go('voting-game', { gameId: _this15.gameId });
+                } else {
+                    _this15.Notifications.show('Game ' + _this15.gameId + ' does not exist.');
+                }
+                console.info('getGame', data);
+                _this15.games = data;
+                _this15.$scope.$apply();
+            });
+        }
+    }, {
+        key: 'getMyGames',
+        value: function getMyGames() {
+            var _this16 = this;
+
+            socketReq('getMyGames', { username: this.Settings.username }).then(function (data) {
+                console.info('getMyGames', data);
+                _this16.games = data;
+                _this16.$scope.$apply();
+            });
+        }
+    }]);
+
+    function VotingScreen(Settings, $scope, $state, Notifications) {
+        _classCallCheck(this, VotingScreen);
+
+        this.Settings = Settings;
+        this.$scope = $scope;
+        this.$state = $state;
+        this.Notifications = Notifications;
+        this.games = [];
+        this.gameId = "";
+    }
+
+    _createClass(VotingScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log(this);
+
+            this.getMyGames();
+        }
+    }]);
+
+    return VotingScreen;
 }());
