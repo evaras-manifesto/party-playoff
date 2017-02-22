@@ -8,17 +8,28 @@ header-component {
 
   .header {
     height: 50px;
+    margin-top: -51px;
+
+    &.active {
+      margin-top: 0;
+    }
 
     .header-icon {
       height: 50px;
       width: 50px;
       max-width: 50px;
+      transition: .15s;
 
-      img, object, svg {
-        height: 20px;
-        width: 20px;
+      span {
+        transition: .15s;
+      }
 
-        fill: $primary !important;
+      &:active {
+        background: #eee;
+
+        span {
+          transform: scale(1.3);
+        }
       }
     }
 

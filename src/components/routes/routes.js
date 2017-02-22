@@ -15,6 +15,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     // Now set up the states
     $stateProvider
         .state(new Route('home', "/", resolve))
+        .state(new Route('settings', "/settings", resolve))
         .state(new Route('voting-home', "/voting-home", resolve))
         .state(new Route('voting-game', "/voting-game/:gameId", resolve))
 

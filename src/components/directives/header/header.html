@@ -1,4 +1,4 @@
-<div class="header flex flex-row flex-align">
+<div class="header flex flex-row flex-align" ng-class="{active:$ctrl.Settings.showHeader()}">
     
     <div class="header-icon flex flex-align flex-justify" ng-click="$ctrl.Settings.back()">
         <span class="icon icon-arrow-left3"></span>
@@ -9,7 +9,7 @@
     </div>
 
 
-    <div class="header-icon flex flex-align flex-justify">
+    <div class="header-icon flex flex-align flex-justify" ui-sref="settings">
         <span class="icon icon-menu"></span>
     </div>
 </div>

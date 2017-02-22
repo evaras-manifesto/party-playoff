@@ -55,7 +55,7 @@ gulp.task("gen-html", () =>
 gulp.task('gen-templates', () =>
     gulp.src(['src/components/directives/**/*.html', 'src/components/screens/**/*.html'])
         .pipe(templateCache({
-            module:'app',
+            module: 'app',
             transformUrl: (url) => url.replace(/.*\//g, '').replace(/.*\\/g, '')
         }))
         .pipe(gulp.dest("release/static"))
@@ -95,6 +95,9 @@ gulp.task('gen-lib-js', () =>
         'src/bower-components/fastclick/lib/fastclick.js',
         'src/bower-components/inobounce/inobounce.js',
         'src/bower-components/socket.io-client/dist/socket.io.js',
+        'src/bower-components/hammerjs/hammer.min.js',
+        'src/bower-components/hammer-time/hammer-time.js',
+        // 'src/bower-components/jquery-hammerjs/jquery.hammer.js'
     ])
         .pipe(concat('lib.js'))
         .pipe(gulp.dest("release/static"))

@@ -1,38 +1,9 @@
 <div screen="home">
-    <tabs-component icons="['pencil', 'diamond']">
-        <tabs class="tabs flex flex-row">
-            <div class="tab flex">
-                <div class="question flex flex-align flex-justify">
-                    <div class="large-text">Enter your player name.</div>
-                    <md-input-container style="margin-right: 10px;">
-                            <label style="bottom: 63px">Name</label>
-                            <input ng-model="$ctrl.Settings.username" ng-change="$ctrl.saveUsername()">
-                    </md-input-container>
+    <div class="question flex flex-align flex-justify">
+        <small>Welcome to</small>
+        <div class="huge-text">The Voting Game</div>
+        <div style="height: 30px"></div>
 
-                    <md-button class="md-raised" ng-disabled="!$ctrl.Settings.username" ng-click="$root.$broadcast('setTab', 1)">Confirm</md-button>
-                </div>
-            </div>
-            <div class="tab">
-                <div class="section-title block">Games</div>
-                <div class="container">
-                    <div class="section">
-
-                        <div class="game flex flex-align flex-justify" ui-sref="voting-home">
-                            The Voting Game
-                        </div>
-
-                        <div class="game flex flex-align flex-justify">
-                            Cards Against Humanity
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </tabs>
-    </tabs-component>
-
-
-
-
+        <md-button class="md-raised" ui-sref="voting-home">Enter</md-button>
+    </div>
 </div>
