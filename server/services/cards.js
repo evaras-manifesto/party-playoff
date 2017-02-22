@@ -33,7 +33,7 @@ const cards = [
     `is going to go down in the history books`,
     `changes their mind every few days`,
     `is a closet communist`,
-    `last series watched is Sex and the City`,
+    `probably watched Sex and the City last night`,
     `has already done something stupid today`,
     `wears socks with sandals`,
     `is probably thinking about something else right now`,
