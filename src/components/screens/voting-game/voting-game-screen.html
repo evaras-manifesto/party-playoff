@@ -27,7 +27,7 @@
 
                     <!--card-->
                     <div class="flex flex-min" ng-if="$ctrl.isLocalState('voting')">
-                        <div ng-if="!$ctrl.hasVoted()" class="flex flex-min">
+                        <div ng-if="!$ctrl.hasVoted() && $ctrl.hasJoined()" class="flex flex-min">
                             <md-input-container>
                                 <label>Select</label>
                                 <md-select ng-model="$ctrl.voteFor">
@@ -46,7 +46,7 @@
                         </div>
 
                         <div></div>
-                        <p ng-if="$ctrl.hasVoted()">
+                        <p ng-if="$ctrl.hasVoted() || !$ctrl.hasJoined()">
                             <small>
                                 Waiting for the others... &nbsp; <span class="spinner icon-cog"></span>
                             </small>
