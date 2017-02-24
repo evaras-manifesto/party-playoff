@@ -146,6 +146,12 @@
                             Game Id: {{$ctrl.game._id}}
                         </div>
                         <div class="list-item">
+                            Round {{$ctrl.game.currentRound}}
+                        </div>
+                        <div class="list-item">
+                            Host {{$ctrl.game.host}}
+                        </div>
+                        <div class="list-item">
                             <span class="butn block" ng-if="ctrl.hasJoined() && !$ctrl.isHost() && $ctrl.isStatus('new')">Leave Game</span>
                         </div>
                     </div>
