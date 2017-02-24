@@ -497,10 +497,25 @@ md-toast {
 .list {
   border: 1px solid #eee;
   background: white;
+  border-top: none;
+  margin-top: 10px;
+
   .list-item {
     border-top: 1px solid #eee;
-    padding: 5px 15px;
     line-height: 20px;
+
+    .item-label {
+      line-height: 15px;
+      font-size: 12px;
+      font-weight: 900;
+      background: #eee;
+      padding: 0 15px;
+      text-transform: uppercase;
+    }
+
+    .item-content {
+      padding: 5px 15px;
+    }
   }
 }
 

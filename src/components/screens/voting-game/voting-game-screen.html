@@ -143,16 +143,23 @@
                 <div class="container">
                     <div class="list">
                         <div class="list-item">
-                            Game Id: {{$ctrl.game._id}}
+                            <div class="item-label">Game Id</div>
+                            <div class="item-content">{{$ctrl.game._id}}</div>
                         </div>
                         <div class="list-item">
-                            Round {{$ctrl.game.currentRound}}
+                            <div class="item-label">Round</div>
+                            <div class="item-content">{{$ctrl.game.currentRound}}</div>
                         </div>
                         <div class="list-item">
-                            Host {{$ctrl.game.host}}
+                            <div class="item-label">Host</div>
+                            <div class="item-content">{{$ctrl.game.host}}</div>
                         </div>
                         <div ng-if="ctrl.hasJoined() && !$ctrl.isHost() && $ctrl.isStatus('new')" class="list-item">
-                            <span class="butn block">Leave Game</span>
+                            <div class="item-label">Game Id</div>
+                            <div class="item-content">
+                                <span class="butn block" ng-click="$ctrl.leaveGame()">Leave Game</span>
+                            </div>
+
                         </div>
                     </div>
 
