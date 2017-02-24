@@ -79,6 +79,14 @@ app.controller('VotingGameScreen', class VotingGameScreen {
             });
     }
 
+    leaveGame(player = this.getPlayer()) {
+        socketReq('leaveGame', {username: player, gameId: this.game._id})
+            .then((data) => {
+                console.info('leaveGame', data);
+                this.getGame();
+            });
+    }
+
     startGame() {
         socketReq('startGame', {username: this.getPlayer(), gameId: this.game._id})
             .then((data) => {

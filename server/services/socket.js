@@ -121,6 +121,16 @@ module.exports = {
                     .then(send, stdErr);
             });
 
+            socket.on('leaveGame', (data, send) => {
+                //{gameId:1, username:"Nazzanuk"}
+                console.log('leaveGame', data);
+
+                Game.update({_id: data.gameId},
+                    {$pull: {players: data.username}})
+                    .then(sendUpdate(data.gameId, `${data.username} has left the game!`))
+                    .then(send, stdErr);
+            });
+
             socket.on('vote', (data, send) => {
                 //{gameId:1, username:"Nazzanuk", vote:'Adrian', currentRound:0}
                 console.log('vote', data);
