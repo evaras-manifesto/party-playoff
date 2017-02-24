@@ -200,6 +200,51 @@ app.service('Settings', function () {
     return Settings;
 }());
 
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent(Settings) {
+            _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this, 'header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
+app.component('notificationComponent', {
+    templateUrl: 'notification.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function notificationComponent(Notifications) {
+            _classCallCheck(this, notificationComponent);
+
+            this.Notifications = Notifications;
+        }
+
+        _createClass(notificationComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('notificationComponent', this);
+            }
+        }]);
+
+        return notificationComponent;
+    }()
+});
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -289,50 +334,59 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.component('notificationComponent', {
-    templateUrl: 'notification.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function notificationComponent(Notifications) {
-            _classCallCheck(this, notificationComponent);
-
-            this.Notifications = Notifications;
-        }
-
-        _createClass(notificationComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('notificationComponent', this);
+app.controller('HomeScreen', function () {
+    _createClass(HomeScreen, [{
+        key: 'saveUsername',
+        value: function saveUsername() {
+            console.log('saveUsername', this.Settings.username);
+            if (this.Settings.username) {
+                localStorage.setItem('username', this.Settings.username);
             }
-        }]);
-
-        return notificationComponent;
-    }()
-});
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent(Settings) {
-            _classCallCheck(this, headerComponent);
-
-            this.Settings = Settings;
         }
+    }]);
 
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this, 'header');
+    function HomeScreen(Settings) {
+        _classCallCheck(this, HomeScreen);
+
+        this.Settings = Settings;
+    }
+
+    _createClass(HomeScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log(this);
+        }
+    }]);
+
+    return HomeScreen;
+}());
+
+app.controller('SettingsScreen', function () {
+    _createClass(SettingsScreen, [{
+        key: 'saveUsername',
+        value: function saveUsername() {
+            console.log('saveUsername', this.Settings.username);
+            if (this.Settings.username) {
+                localStorage.setItem('username', this.Settings.username);
             }
-        }]);
+        }
+    }]);
 
-        return headerComponent;
-    }()
-});
+    function SettingsScreen(Settings) {
+        _classCallCheck(this, SettingsScreen);
+
+        this.Settings = Settings;
+    }
+
+    _createClass(SettingsScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log(this);
+        }
+    }]);
+
+    return SettingsScreen;
+}());
 
 app.controller('VotingGameScreen', function () {
     _createClass(VotingGameScreen, [{
@@ -632,60 +686,6 @@ app.controller('VotingGameScreen', function () {
     }]);
 
     return VotingGameScreen;
-}());
-
-app.controller('SettingsScreen', function () {
-    _createClass(SettingsScreen, [{
-        key: 'saveUsername',
-        value: function saveUsername() {
-            console.log('saveUsername', this.Settings.username);
-            if (this.Settings.username) {
-                localStorage.setItem('username', this.Settings.username);
-            }
-        }
-    }]);
-
-    function SettingsScreen(Settings) {
-        _classCallCheck(this, SettingsScreen);
-
-        this.Settings = Settings;
-    }
-
-    _createClass(SettingsScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log(this);
-        }
-    }]);
-
-    return SettingsScreen;
-}());
-
-app.controller('HomeScreen', function () {
-    _createClass(HomeScreen, [{
-        key: 'saveUsername',
-        value: function saveUsername() {
-            console.log('saveUsername', this.Settings.username);
-            if (this.Settings.username) {
-                localStorage.setItem('username', this.Settings.username);
-            }
-        }
-    }]);
-
-    function HomeScreen(Settings) {
-        _classCallCheck(this, HomeScreen);
-
-        this.Settings = Settings;
-    }
-
-    _createClass(HomeScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log(this);
-        }
-    }]);
-
-    return HomeScreen;
 }());
 
 app.controller('VotingHomeScreen', function () {
