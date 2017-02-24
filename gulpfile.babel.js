@@ -95,7 +95,9 @@ gulp.task('gen-lib-js', () =>
         'src/bower-components/fastclick/lib/fastclick.js',
         'src/bower-components/inobounce/inobounce.js',
         'src/bower-components/socket.io-client/dist/socket.io.js',
-        'src/bower-components/hammerjs/hammer.min.js'
+        'src/bower-components/hammerjs/hammer.min.js',
+        'src/bower-components/letteringjs/jquery.lettering.js',
+        'src/bower-components/textillate/jquery.textillate.js'
     ])
         .pipe(concat('lib.js'))
         .pipe(gulp.dest("release/static"))
@@ -104,7 +106,8 @@ gulp.task('gen-lib-js', () =>
 gulp.task('gen-lib-css', () =>
     gulp.src([
         'src/bower-components/bootstrap/dist/css/bootstrap.min.css',
-        'src/bower-components/angular-material/angular-material.min.css'
+        'src/bower-components/angular-material/angular-material.min.css',
+        'src/bower-components/animate.css/animate.min.css'
     ])
         .pipe(concat('lib.css'))
         .pipe(gulp.dest("release/static"))

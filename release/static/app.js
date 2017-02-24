@@ -200,28 +200,6 @@ app.service('Settings', function () {
     return Settings;
 }());
 
-app.component('notificationComponent', {
-    templateUrl: 'notification.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function notificationComponent(Notifications) {
-            _classCallCheck(this, notificationComponent);
-
-            this.Notifications = Notifications;
-        }
-
-        _createClass(notificationComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('notificationComponent', this);
-            }
-        }]);
-
-        return notificationComponent;
-    }()
-});
 app.component('headerComponent', {
     templateUrl: 'header.html',
     controllerAs: '$ctrl',
@@ -245,6 +223,28 @@ app.component('headerComponent', {
     }()
 });
 
+app.component('notificationComponent', {
+    templateUrl: 'notification.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function notificationComponent(Notifications) {
+            _classCallCheck(this, notificationComponent);
+
+            this.Notifications = Notifications;
+        }
+
+        _createClass(notificationComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('notificationComponent', this);
+            }
+        }]);
+
+        return notificationComponent;
+    }()
+});
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -345,16 +345,48 @@ app.controller('HomeScreen', function () {
         }
     }]);
 
-    function HomeScreen(Settings) {
+    function HomeScreen(Settings, $element) {
         _classCallCheck(this, HomeScreen);
 
+        this.$element = $element;
         this.Settings = Settings;
     }
 
     _createClass(HomeScreen, [{
         key: '$onInit',
         value: function $onInit() {
-            console.log(this);
+            console.log('HomeScreen', this);
+            console.log(this.$element.find('.logo-text'));
+
+            this.$element.find('.logo-text').textillate({
+                loop: true,
+                autoStart: true,
+                minDisplayTime: 100,
+                in: {
+                    effect: 'bounceIn',
+                    shuffle: true
+                },
+                out: {
+                    effect: 'bounceOut',
+                    shuffle: true
+                },
+                type: 'char'
+            });
+
+            // this.$element.find('small').textillate({
+            //     loop: true,
+            //     autoStart: true,
+            //     minDisplayTime: 100,
+            //     in: {
+            //         effect: 'bounceInDown',
+            //         shuffle: true
+            //     },
+            //     out: {
+            //         effect: 'bounceOutDown',
+            //         shuffle: true
+            //     },
+            //     type: 'char'
+            // });
         }
     }]);
 

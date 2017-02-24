@@ -28,7 +28,10 @@
     "hammerjs": "hammer.js#^2.0.8",
     "hammer-time": "^1.1.0",
     "jquery-hammerjs": "jquery.hammer.js#^2.0.0",
-    "angular-touch": "^1.6.2"
+    "angular-touch": "^1.6.2",
+    "letteringjs": "^0.7.0",
+    "animate.css": "^3.5.2",
+    "textillate": "^0.4.0"
   },
   "resolutions": {
     "angular-ui-router": "^0.4.2",

@@ -506,15 +506,15 @@ md-toast {
 
   .list-item {
     margin-top: 10px;
-    border: 1px solid #eee;
+    border: 1px solid $primary;
     line-height: 20px;
 
     .item-label {
       line-height: 15px;
       font-size: 12px;
       font-weight: 900;
-      background: #eee;
-      padding: 10px 15px;
+      background: $primary;
+      padding: 5px 15px;
       text-transform: uppercase;
     }
 
