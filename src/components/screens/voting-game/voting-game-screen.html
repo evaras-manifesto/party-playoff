@@ -151,8 +151,8 @@
                         <div class="list-item">
                             Host {{$ctrl.game.host}}
                         </div>
-                        <div class="list-item">
-                            <span class="butn block" ng-if="ctrl.hasJoined() && !$ctrl.isHost() && $ctrl.isStatus('new')">Leave Game</span>
+                        <div ng-if="ctrl.hasJoined() && !$ctrl.isHost() && $ctrl.isStatus('new')" class="list-item">
+                            <span class="butn block">Leave Game</span>
                         </div>
                     </div>
 

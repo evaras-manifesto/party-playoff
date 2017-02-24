@@ -358,7 +358,8 @@ md-toast {
   border-radius: 100px; }
 
 .list {
-  border: 1px solid #eee; }
+  border: 1px solid #eee;
+  background: white; }
   .list .list-item {
     border-top: 1px solid #eee;
     padding: 5px 15px;
@@ -444,6 +445,28 @@ header-component {
       font-size: 26px;
       cursor: pointer; }
 
+notification-component .notification {
+  position: fixed;
+  top: 65px;
+  right: 15px;
+  left: 15px;
+  padding: 15px 20px;
+  line-height: 20px;
+  background: white;
+  border: 1px solid #eee;
+  z-index: 1;
+  font-weight: 800;
+  font-size: 14px;
+  visibility: hidden;
+  transition: 0.6s cubic-bezier(0.86, 0, 0.07, 1);
+  transform: translateY(-65px);
+  will-change: transform;
+  opacity: 0; }
+  notification-component .notification.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0px); }
+
 tabs-component {
   -ms-flex: 1 1 auto;
       flex: 1 1 auto;
@@ -489,25 +512,3 @@ tabs-component {
         height: 22px;
         width: 22px;
         fill: #000 !important; }
-
-notification-component .notification {
-  position: fixed;
-  top: 65px;
-  right: 15px;
-  left: 15px;
-  padding: 15px 20px;
-  line-height: 20px;
-  background: white;
-  border: 1px solid #eee;
-  z-index: 1;
-  font-weight: 800;
-  font-size: 14px;
-  visibility: hidden;
-  transition: 0.6s cubic-bezier(0.86, 0, 0.07, 1);
-  transform: translateY(-65px);
-  will-change: transform;
-  opacity: 0; }
-  notification-component .notification.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0px); }

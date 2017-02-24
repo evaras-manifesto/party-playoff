@@ -223,6 +223,28 @@ app.component('headerComponent', {
     }()
 });
 
+app.component('notificationComponent', {
+    templateUrl: 'notification.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function notificationComponent(Notifications) {
+            _classCallCheck(this, notificationComponent);
+
+            this.Notifications = Notifications;
+        }
+
+        _createClass(notificationComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('notificationComponent', this);
+            }
+        }]);
+
+        return notificationComponent;
+    }()
+});
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -310,28 +332,6 @@ app.component('tabsComponent', {
         }]);
 
         return tabsComponent;
-    }()
-});
-app.component('notificationComponent', {
-    templateUrl: 'notification.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function notificationComponent(Notifications) {
-            _classCallCheck(this, notificationComponent);
-
-            this.Notifications = Notifications;
-        }
-
-        _createClass(notificationComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('notificationComponent', this);
-            }
-        }]);
-
-        return notificationComponent;
     }()
 });
 app.controller('HomeScreen', function () {
