@@ -520,12 +520,13 @@ md-toast {
       font-size: 12px;
       font-weight: 900;
       background: $primary;
-      padding: 5px 15px;
+      padding: 7.5px 15px;
       text-transform: uppercase;
+      color: white;
     }
 
     .item-content {
-      padding: 15px 15px;
+      padding: 12.5px 15px;
       font-size: 17px;
       font-weight: 900;
     }
