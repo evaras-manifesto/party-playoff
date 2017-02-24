@@ -495,13 +495,14 @@ md-toast {
 }
 
 .list {
-  border: 1px solid #eee;
+  //border: 1px solid #eee;
   background: white;
   border-top: none;
   margin-top: 10px;
 
   .list-item {
-    border-top: 1px solid #eee;
+    margin-top: 10px;
+    border: 1px solid #eee;
     line-height: 20px;
 
     .item-label {
@@ -509,12 +510,14 @@ md-toast {
       font-size: 12px;
       font-weight: 900;
       background: #eee;
-      padding: 0 15px;
+      padding: 10px 15px;
       text-transform: uppercase;
     }
 
     .item-content {
-      padding: 5px 15px;
+      padding: 15px 15px;
+      font-size: 17px;
+      font-weight: 900;
     }
   }
 }

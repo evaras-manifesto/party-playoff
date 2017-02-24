@@ -358,22 +358,24 @@ md-toast {
   border-radius: 100px; }
 
 .list {
-  border: 1px solid #eee;
   background: white;
   border-top: none;
   margin-top: 10px; }
   .list .list-item {
-    border-top: 1px solid #eee;
+    margin-top: 10px;
+    border: 1px solid #eee;
     line-height: 20px; }
     .list .list-item .item-label {
       line-height: 15px;
       font-size: 12px;
       font-weight: 900;
       background: #eee;
-      padding: 0 15px;
+      padding: 10px 15px;
       text-transform: uppercase; }
     .list .list-item .item-content {
-      padding: 5px 15px; }
+      padding: 15px 15px;
+      font-size: 17px;
+      font-weight: 900; }
 
 .butn {
   line-height: 40px;
@@ -424,6 +426,52 @@ md-toast {
   .flex.flex-end {
     -ms-flex-item-align: end;
         align-self: flex-end; }
+
+tabs-component {
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  width: 100vw; }
+  tabs-component .tabs {
+    position: relative;
+    overflow: visible;
+    will-change: transform;
+    transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
+    tabs-component .tabs .tab {
+      width: 100vw;
+      overflow: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch; }
+  tabs-component .tab-nav {
+    background: white;
+    color: #000;
+    border-top: #eee 1px solid;
+    position: relative;
+    z-index: 2000; }
+    tabs-component .tab-nav .tab-icon {
+      height: 50px;
+      outline: none;
+      font-size: 20px;
+      border-bottom: 3px solid transparent;
+      transition: .3s;
+      color: rgba(0, 0, 0, 0.3); }
+      tabs-component .tab-nav .tab-icon.active {
+        border-bottom: 2px solid #000;
+        color: #000; }
+      tabs-component .tab-nav .tab-icon .icon-label {
+        color: #000;
+        font-size: 10px;
+        margin-top: 5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        line-height: 1; }
+      tabs-component .tab-nav .tab-icon img, tabs-component .tab-nav .tab-icon object, tabs-component .tab-nav .tab-icon svg {
+        height: 22px;
+        width: 22px;
+        fill: #000 !important; }
 
 notification-component .notification {
   position: fixed;
@@ -476,49 +524,3 @@ header-component {
       font-family: 'Caveat Brush', cursive;
       font-size: 26px;
       cursor: pointer; }
-
-tabs-component {
-  -ms-flex: 1 1 auto;
-      flex: 1 1 auto;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
-  width: 100vw; }
-  tabs-component .tabs {
-    position: relative;
-    overflow: visible;
-    will-change: transform;
-    transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
-    tabs-component .tabs .tab {
-      width: 100vw;
-      overflow: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch; }
-  tabs-component .tab-nav {
-    background: white;
-    color: #000;
-    border-top: #eee 1px solid;
-    position: relative;
-    z-index: 2000; }
-    tabs-component .tab-nav .tab-icon {
-      height: 50px;
-      outline: none;
-      font-size: 20px;
-      border-bottom: 3px solid transparent;
-      transition: .3s;
-      color: rgba(0, 0, 0, 0.3); }
-      tabs-component .tab-nav .tab-icon.active {
-        border-bottom: 2px solid #000;
-        color: #000; }
-      tabs-component .tab-nav .tab-icon .icon-label {
-        color: #000;
-        font-size: 10px;
-        margin-top: 5px;
-        font-weight: 600;
-        text-transform: uppercase;
-        line-height: 1; }
-      tabs-component .tab-nav .tab-icon img, tabs-component .tab-nav .tab-icon object, tabs-component .tab-nav .tab-icon svg {
-        height: 22px;
-        width: 22px;
-        fill: #000 !important; }
