@@ -200,6 +200,140 @@ app.service('Settings', function () {
     return Settings;
 }());
 
+app.component('headerComponent', {
+    templateUrl: 'header.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function headerComponent(Settings) {
+            _classCallCheck(this, headerComponent);
+
+            this.Settings = Settings;
+        }
+
+        _createClass(headerComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log(this, 'header');
+            }
+        }]);
+
+        return headerComponent;
+    }()
+});
+
+app.component('notificationComponent', {
+    templateUrl: 'notification.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function notificationComponent(Notifications) {
+            _classCallCheck(this, notificationComponent);
+
+            this.Notifications = Notifications;
+        }
+
+        _createClass(notificationComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('notificationComponent', this);
+            }
+        }]);
+
+        return notificationComponent;
+    }()
+});
+app.component('tabsComponent', {
+    templateUrl: 'tabs.html',
+    controllerAs: '$ctrl',
+    transclude: {
+        tabs: '?tabs'
+    },
+    bindings: {
+        icons: '='
+    },
+    controller: function () {
+        _createClass(tabsComponent, [{
+            key: 'isActive',
+            value: function isActive(index) {
+                return this.currentTab == index;
+            }
+        }, {
+            key: 'setTab',
+            value: function setTab(index) {
+                console.log(index);
+
+                if (index < 0) index = 0;
+                if (index > this.icons.length - 1) index = this.icons.length - 1;
+                this.currentTab = index;
+                this.$scope.$apply();
+            }
+        }, {
+            key: 'moveTabs',
+            value: function moveTabs() {
+                return { transform: 'translateX(-' + this.currentTab + '00vw)' };
+            }
+        }]);
+
+        function tabsComponent($rootScope, $element, $scope) {
+            var _this3 = this;
+
+            _classCallCheck(this, tabsComponent);
+
+            this.$element = $element;
+            this.$scope = $scope;
+            this.currentTab = 0;
+            $rootScope.$on('setTab', function (event, value) {
+                return _this3.setTab(value);
+            });
+        }
+
+        _createClass(tabsComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                var _this4 = this;
+
+                console.log(this);
+
+                var myElement = this.$element.get(0);
+
+                // create a simple instance
+                // by default, it only adds horizontal recognizers
+                var mc = new Hammer(myElement);
+
+                // listen to events...
+                //             mc.on("swipe tap press", function (ev) {
+                //                 console.log(ev.type + " gesture detected.");
+                //             });
+
+                mc.on("swipeleft", function (ev) {
+                    console.log(ev.type + " gesture detected.");
+                    _this4.setTab(_this4.currentTab + 1);
+                });
+
+                mc.on("swiperight", function (ev) {
+                    console.log(ev.type + " gesture detected.");
+                    _this4.setTab(_this4.currentTab - 1);
+                });
+
+                // var hammertime = new Hammer(this.$element, {});
+
+                // $('body').hammer({}).bind('swipeleft', (ev) => {
+                //     this.setTab(this.currentTab - 1);
+                //     console.log(ev);
+                // });
+                // this.$element.hammer({}).bind('swiperight', (ev) => {
+                //     this.setTab(this.currentTab + 1);
+                //     console.log(ev);
+                // });
+            }
+        }]);
+
+        return tabsComponent;
+    }()
+});
 app.controller('HomeScreen', function () {
     _createClass(HomeScreen, [{
         key: 'saveUsername',
@@ -238,21 +372,6 @@ app.controller('HomeScreen', function () {
                 },
                 type: 'char'
             });
-
-            // this.$element.find('small').textillate({
-            //     loop: true,
-            //     autoStart: true,
-            //     minDisplayTime: 100,
-            //     in: {
-            //         effect: 'bounceInDown',
-            //         shuffle: true
-            //     },
-            //     out: {
-            //         effect: 'bounceOutDown',
-            //         shuffle: true
-            //     },
-            //     type: 'char'
-            // });
         }
     }]);
 
@@ -290,20 +409,20 @@ app.controller('VotingGameScreen', function () {
     _createClass(VotingGameScreen, [{
         key: 'events',
         value: function events() {
-            var _this3 = this;
+            var _this5 = this;
 
             socket.removeListener('updateGame');
 
             socket.on('updateGame', function (data) {
                 console.log('received updateGame', data);
                 if (data.message) {
-                    _this3.Notifications.show(data.message);
+                    _this5.Notifications.show(data.message);
                 }
-                _this3.getGame();
+                _this5.getGame();
             });
 
             socket.on('connect', function () {
-                return _this3.joinGameRoom();
+                return _this5.joinGameRoom();
             });
         }
     }, {
@@ -383,43 +502,43 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'joinGameRoom',
         value: function joinGameRoom() {
-            var _this4 = this;
+            var _this6 = this;
 
             socketReq('joinGameRoom', { username: this.getPlayer(), gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('joinGameRoom', data);
-                _this4.update();
+                _this6.update();
             });
         }
     }, {
         key: 'joinGame',
         value: function joinGame() {
-            var _this5 = this;
+            var _this7 = this;
 
             socketReq('joinGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('joinGame', data);
-                _this5.getGame();
+                _this7.getGame();
             });
         }
     }, {
         key: 'leaveGame',
         value: function leaveGame() {
-            var _this6 = this;
+            var _this8 = this;
 
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
             socketReq('leaveGame', { username: player, gameId: this.game._id }).then(function (data) {
                 console.info('leaveGame', data);
-                _this6.getGame();
+                _this8.getGame();
             });
         }
     }, {
         key: 'startGame',
         value: function startGame() {
-            var _this7 = this;
+            var _this9 = this;
 
             socketReq('startGame', { username: this.getPlayer(), gameId: this.game._id }).then(function (data) {
                 console.info('startGame', data);
-                _this7.getGame();
+                _this9.getGame();
             });
         }
     }, {
@@ -451,7 +570,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'getPlayerCards',
         value: function getPlayerCards() {
-            var _this8 = this;
+            var _this10 = this;
 
             var player = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getPlayer();
 
@@ -459,7 +578,7 @@ app.controller('VotingGameScreen', function () {
             this.game.rounds.forEach(function (round, index) {
                 console.log('round', round, player, index);
                 if (_.includes(round.winners, player)) {
-                    cards.push(_this8.game.cards[index]);
+                    cards.push(_this10.game.cards[index]);
                 }
             });
 
@@ -480,7 +599,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'newRound',
         value: function newRound() {
-            var _this9 = this;
+            var _this11 = this;
 
             socketReq('newRound', {
                 username: this.getPlayer(),
@@ -489,7 +608,7 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('newRound', data);
-                _this9.getGame();
+                _this11.getGame();
             });
         }
     }, {
@@ -512,7 +631,7 @@ app.controller('VotingGameScreen', function () {
     }, {
         key: 'vote',
         value: function vote() {
-            var _this10 = this;
+            var _this12 = this;
 
             console.log('voteFor', this.voteFor);
             socketReq('vote', {
@@ -522,14 +641,14 @@ app.controller('VotingGameScreen', function () {
                 currentRound: this.game.currentRound
             }).then(function (data) {
                 console.info('vote', data);
-                _this10.voteFor = undefined;
-                _this10.getGame();
+                _this12.voteFor = undefined;
+                _this12.getGame();
             });
         }
     }, {
         key: 'sendChat',
         value: function sendChat() {
-            var _this11 = this;
+            var _this13 = this;
 
             console.log('sendChat', this.chatMessage);
             if (!this.chatMessage) return;
@@ -539,19 +658,19 @@ app.controller('VotingGameScreen', function () {
                 chatMessage: this.chatMessage
             }).then(function (data) {
                 console.info('sendChat', data);
-                _this11.chatMessage = undefined;
-                _this11.getGame();
+                _this13.chatMessage = undefined;
+                _this13.getGame();
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this12 = this;
+            var _this14 = this;
 
             return socketReq('getGame', { username: this.Settings.username, gameId: this.$stateParams.gameId }).then(function (data) {
                 console.info('getGame', data);
-                _this12.game = data;
-                _this12.update();
+                _this14.game = data;
+                _this14.update();
             });
         }
     }, {
@@ -590,38 +709,38 @@ app.controller('VotingHomeScreen', function () {
     _createClass(VotingScreen, [{
         key: 'addGame',
         value: function addGame() {
-            var _this13 = this;
+            var _this15 = this;
 
             socketReq('addGame', { username: this.Settings.username }).then(function (data) {
                 console.info('addGame', data);
-                _this13.$state.go('voting-game', { gameId: data._id });
+                _this15.$state.go('voting-game', { gameId: data._id });
             });
         }
     }, {
         key: 'getGame',
         value: function getGame() {
-            var _this14 = this;
+            var _this16 = this;
 
             socketReq('getGame', { username: this.Settings.username, gameId: this.gameId }).then(function (data) {
                 if (data) {
-                    _this14.$state.go('voting-game', { gameId: _this14.gameId });
+                    _this16.$state.go('voting-game', { gameId: _this16.gameId });
                 } else {
-                    _this14.Notifications.show('Game ' + _this14.gameId + ' does not exist.');
+                    _this16.Notifications.show('Game ' + _this16.gameId + ' does not exist.');
                 }
                 console.info('getGame', data);
-                _this14.games = data;
-                _this14.$scope.$apply();
+                _this16.games = data;
+                _this16.$scope.$apply();
             });
         }
     }, {
         key: 'getMyGames',
         value: function getMyGames() {
-            var _this15 = this;
+            var _this17 = this;
 
             socketReq('getMyGames', { username: this.Settings.username }).then(function (data) {
                 console.info('getMyGames', data);
-                _this15.games = data;
-                _this15.$scope.$apply();
+                _this17.games = data;
+                _this17.$scope.$apply();
             });
         }
     }]);
@@ -648,138 +767,3 @@ app.controller('VotingHomeScreen', function () {
 
     return VotingScreen;
 }());
-
-app.component('headerComponent', {
-    templateUrl: 'header.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function headerComponent(Settings) {
-            _classCallCheck(this, headerComponent);
-
-            this.Settings = Settings;
-        }
-
-        _createClass(headerComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log(this, 'header');
-            }
-        }]);
-
-        return headerComponent;
-    }()
-});
-
-app.component('tabsComponent', {
-    templateUrl: 'tabs.html',
-    controllerAs: '$ctrl',
-    transclude: {
-        tabs: '?tabs'
-    },
-    bindings: {
-        icons: '='
-    },
-    controller: function () {
-        _createClass(tabsComponent, [{
-            key: 'isActive',
-            value: function isActive(index) {
-                return this.currentTab == index;
-            }
-        }, {
-            key: 'setTab',
-            value: function setTab(index) {
-                console.log(index);
-
-                if (index < 0) index = 0;
-                if (index > this.icons.length - 1) index = this.icons.length - 1;
-                this.currentTab = index;
-                this.$scope.$apply();
-            }
-        }, {
-            key: 'moveTabs',
-            value: function moveTabs() {
-                return { transform: 'translateX(-' + this.currentTab + '00vw)' };
-            }
-        }]);
-
-        function tabsComponent($rootScope, $element, $scope) {
-            var _this16 = this;
-
-            _classCallCheck(this, tabsComponent);
-
-            this.$element = $element;
-            this.$scope = $scope;
-            this.currentTab = 0;
-            $rootScope.$on('setTab', function (event, value) {
-                return _this16.setTab(value);
-            });
-        }
-
-        _createClass(tabsComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                var _this17 = this;
-
-                console.log(this);
-
-                var myElement = this.$element.get(0);
-
-                // create a simple instance
-                // by default, it only adds horizontal recognizers
-                var mc = new Hammer(myElement);
-
-                // listen to events...
-                //             mc.on("swipe tap press", function (ev) {
-                //                 console.log(ev.type + " gesture detected.");
-                //             });
-
-                mc.on("swipeleft", function (ev) {
-                    console.log(ev.type + " gesture detected.");
-                    _this17.setTab(_this17.currentTab + 1);
-                });
-
-                mc.on("swiperight", function (ev) {
-                    console.log(ev.type + " gesture detected.");
-                    _this17.setTab(_this17.currentTab - 1);
-                });
-
-                // var hammertime = new Hammer(this.$element, {});
-
-                // $('body').hammer({}).bind('swipeleft', (ev) => {
-                //     this.setTab(this.currentTab - 1);
-                //     console.log(ev);
-                // });
-                // this.$element.hammer({}).bind('swiperight', (ev) => {
-                //     this.setTab(this.currentTab + 1);
-                //     console.log(ev);
-                // });
-            }
-        }]);
-
-        return tabsComponent;
-    }()
-});
-app.component('notificationComponent', {
-    templateUrl: 'notification.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function notificationComponent(Notifications) {
-            _classCallCheck(this, notificationComponent);
-
-            this.Notifications = Notifications;
-        }
-
-        _createClass(notificationComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('notificationComponent', this);
-            }
-        }]);
-
-        return notificationComponent;
-    }()
-});

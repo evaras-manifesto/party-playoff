@@ -29,21 +29,6 @@ app.controller('HomeScreen', class HomeScreen {
             },
             type: 'char'
         });
-
-        // this.$element.find('small').textillate({
-        //     loop: true,
-        //     autoStart: true,
-        //     minDisplayTime: 100,
-        //     in: {
-        //         effect: 'bounceInDown',
-        //         shuffle: true
-        //     },
-        //     out: {
-        //         effect: 'bounceOutDown',
-        //         shuffle: true
-        //     },
-        //     type: 'char'
-        // });
     }
 });
 

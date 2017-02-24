@@ -42,6 +42,11 @@ header-component {
       font-weight: 900;
 
       cursor: pointer;
+      transition: .15s;
+
+      &:active {
+        transform: scale(1.3);
+      }
     }
 
   }
