@@ -53,7 +53,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise("/");
 
     // Now set up the states
-    $stateProvider.state(new Route('home', "/", resolve)).state(new Route('settings', "/settings", resolve)).state(new Route('voting-home', "/voting-home", resolve)).state(new Route('voting-game', "/voting-game/:gameId", resolve));
+    $stateProvider.state(new Route('home', "/", resolve)).state(new Route('settings', "/settings", resolve)).state(new Route('voting-home', "/home", resolve)).state(new Route('voting-game', "/g/:gameId", resolve));
 
     //use real urls instead of hashes
     //$locationProvider.html5Mode(true);
@@ -320,50 +320,6 @@ app.component('notificationComponent', {
         return notificationComponent;
     }()
 });
-app.controller('HomeScreen', function () {
-    _createClass(HomeScreen, [{
-        key: 'saveUsername',
-        value: function saveUsername() {
-            console.log('saveUsername', this.Settings.username);
-            if (this.Settings.username) {
-                localStorage.setItem('username', this.Settings.username);
-            }
-        }
-    }]);
-
-    function HomeScreen(Settings, $element) {
-        _classCallCheck(this, HomeScreen);
-
-        this.$element = $element;
-        this.Settings = Settings;
-    }
-
-    _createClass(HomeScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log('HomeScreen', this);
-            console.log(this.$element.find('.logo-text'));
-
-            this.$element.find('.logo-text').textillate({
-                loop: true,
-                autoStart: true,
-                minDisplayTime: 100,
-                in: {
-                    effect: 'bounceIn',
-                    shuffle: true
-                },
-                out: {
-                    effect: 'bounceOut',
-                    shuffle: true
-                },
-                type: 'char'
-            });
-        }
-    }]);
-
-    return HomeScreen;
-}());
-
 app.controller('SettingsScreen', function () {
     _createClass(SettingsScreen, [{
         key: 'saveUsername',
@@ -689,6 +645,50 @@ app.controller('VotingGameScreen', function () {
     }]);
 
     return VotingGameScreen;
+}());
+
+app.controller('HomeScreen', function () {
+    _createClass(HomeScreen, [{
+        key: 'saveUsername',
+        value: function saveUsername() {
+            console.log('saveUsername', this.Settings.username);
+            if (this.Settings.username) {
+                localStorage.setItem('username', this.Settings.username);
+            }
+        }
+    }]);
+
+    function HomeScreen(Settings, $element) {
+        _classCallCheck(this, HomeScreen);
+
+        this.$element = $element;
+        this.Settings = Settings;
+    }
+
+    _createClass(HomeScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log('HomeScreen', this);
+            console.log(this.$element.find('.logo-text'));
+
+            this.$element.find('.logo-text').textillate({
+                loop: true,
+                autoStart: true,
+                minDisplayTime: 100,
+                in: {
+                    effect: 'bounceIn',
+                    shuffle: true
+                },
+                out: {
+                    effect: 'bounceOut',
+                    shuffle: true
+                },
+                type: 'char'
+            });
+        }
+    }]);
+
+    return HomeScreen;
 }());
 
 app.controller('VotingHomeScreen', function () {
