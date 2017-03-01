@@ -223,6 +223,28 @@ app.component('headerComponent', {
     }()
 });
 
+app.component('notificationComponent', {
+    templateUrl: 'notification.html',
+    controllerAs: '$ctrl',
+    transclude: {},
+    bindings: {},
+    controller: function () {
+        function notificationComponent(Notifications) {
+            _classCallCheck(this, notificationComponent);
+
+            this.Notifications = Notifications;
+        }
+
+        _createClass(notificationComponent, [{
+            key: '$onInit',
+            value: function $onInit() {
+                console.log('notificationComponent', this);
+            }
+        }]);
+
+        return notificationComponent;
+    }()
+});
 app.component('tabsComponent', {
     templateUrl: 'tabs.html',
     controllerAs: '$ctrl',
@@ -298,28 +320,50 @@ app.component('tabsComponent', {
         return tabsComponent;
     }()
 });
-app.component('notificationComponent', {
-    templateUrl: 'notification.html',
-    controllerAs: '$ctrl',
-    transclude: {},
-    bindings: {},
-    controller: function () {
-        function notificationComponent(Notifications) {
-            _classCallCheck(this, notificationComponent);
-
-            this.Notifications = Notifications;
-        }
-
-        _createClass(notificationComponent, [{
-            key: '$onInit',
-            value: function $onInit() {
-                console.log('notificationComponent', this);
+app.controller('HomeScreen', function () {
+    _createClass(HomeScreen, [{
+        key: 'saveUsername',
+        value: function saveUsername() {
+            console.log('saveUsername', this.Settings.username);
+            if (this.Settings.username) {
+                localStorage.setItem('username', this.Settings.username);
             }
-        }]);
+        }
+    }]);
 
-        return notificationComponent;
-    }()
-});
+    function HomeScreen(Settings, $element) {
+        _classCallCheck(this, HomeScreen);
+
+        this.$element = $element;
+        this.Settings = Settings;
+    }
+
+    _createClass(HomeScreen, [{
+        key: '$onInit',
+        value: function $onInit() {
+            console.log('HomeScreen', this);
+            console.log(this.$element.find('.logo-text'));
+
+            this.$element.find('.logo-text').textillate({
+                loop: true,
+                autoStart: true,
+                minDisplayTime: 100,
+                in: {
+                    effect: 'bounceIn',
+                    shuffle: true
+                },
+                out: {
+                    effect: 'bounceOut',
+                    shuffle: true
+                },
+                type: 'char'
+            });
+        }
+    }]);
+
+    return HomeScreen;
+}());
+
 app.controller('SettingsScreen', function () {
     _createClass(SettingsScreen, [{
         key: 'saveUsername',
@@ -645,50 +689,6 @@ app.controller('VotingGameScreen', function () {
     }]);
 
     return VotingGameScreen;
-}());
-
-app.controller('HomeScreen', function () {
-    _createClass(HomeScreen, [{
-        key: 'saveUsername',
-        value: function saveUsername() {
-            console.log('saveUsername', this.Settings.username);
-            if (this.Settings.username) {
-                localStorage.setItem('username', this.Settings.username);
-            }
-        }
-    }]);
-
-    function HomeScreen(Settings, $element) {
-        _classCallCheck(this, HomeScreen);
-
-        this.$element = $element;
-        this.Settings = Settings;
-    }
-
-    _createClass(HomeScreen, [{
-        key: '$onInit',
-        value: function $onInit() {
-            console.log('HomeScreen', this);
-            console.log(this.$element.find('.logo-text'));
-
-            this.$element.find('.logo-text').textillate({
-                loop: true,
-                autoStart: true,
-                minDisplayTime: 100,
-                in: {
-                    effect: 'bounceIn',
-                    shuffle: true
-                },
-                out: {
-                    effect: 'bounceOut',
-                    shuffle: true
-                },
-                type: 'char'
-            });
-        }
-    }]);
-
-    return HomeScreen;
 }());
 
 app.controller('VotingHomeScreen', function () {

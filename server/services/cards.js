@@ -39,7 +39,7 @@ const cards = [
     `is probably thinking about something else right now`,
     `thinks that they can save the world with love?`,
     `thinks that they can save the world with logic?`,
-    `just doesn't know when to stop!?`,
+    `just doesn't know when to stop!`,
     `could always do with one more tequila`,
     `is plotting against everyone right now`,
     `is the crazy one on the bus you don't want to sit next to`,
@@ -55,6 +55,22 @@ const cards = [
     `thinks they are a professional athlete`,
     `gives awful hugs`,
     `needs a chill pill`,
+    `will still be mind numbingly boring in 10 years`,
+    `will still have no culture in 10 years`,
+    `would make the best super-villian`,
+    `would make the best superhero`,
+    `would bring a knife to a fistfight`,
+    `thinks Lightsabers are real`,
+    `still thinks Santa is real`,
+    `still uses Windows XP`,
+    `is paying for the sins of their last life`,
+    `acts like paparazzi are following them around 24/7`,
+    `still lives like it's the dark ages`,
+    `is gonna be bankrupt when the next recession hits`,
+    `lived in the cellar for the first 5 years of their life`,
+    `would try to fix the titanic with super glue`,
+    `deserves a one way trip to Mars`,
+    `thinks they could take on a lion with their bare hands`,
 ];
 
 module.exports = {
@@ -67,7 +83,7 @@ module.exports = {
             index: index,
             votes: [],
             guesses: [],
-            winners:[]
+            winners: []
         }
     }
 };
