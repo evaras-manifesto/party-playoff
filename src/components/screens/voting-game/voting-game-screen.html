@@ -33,7 +33,7 @@
                                 <md-select ng-model="$ctrl.voteFor">
                                     <md-option ng-value="">Select</md-option>
                                     <md-option
-                                            ng-repeat="player in $ctrl.getOtherPlayers()"
+                                            ng-repeat="player in $ctrl.game.players"
                                             ng-value="player"
                                     >{{player}}
                                     </md-option>
